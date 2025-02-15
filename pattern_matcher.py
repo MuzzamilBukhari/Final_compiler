@@ -1,11 +1,18 @@
 import re
 
 def check_pattern(word):
-    # Patterns for different types of constants
-    identifier_pattern = r'^[a-zA-Z_][a-zA-Z0-9_]*$'  # Write your regex for identifier
-    string_constant_pattern = r'^"[^"]*"$'  # Write your regex for string constant
-    number_constant_pattern = r'^\d+(\.\d+)?$'  # Write your regex for number constant
-    char_constant_pattern = r'^\'[^\']\''  # Write your regex for char constant
+    # Pattern for identifier: as specified
+     # identifier_pattern = r'[a-zA-Z][a-zA-Z0-9][a-zA-Z0-9] | _[a-zA-Z0-9]+ | [a-zA-Z][a-zA-Z0-9][a-zA-Z0-9]_[a-zA-Z0-9]+' # actual regex
+    identifier_pattern = r'[a-zA-Z][a-zA-Z0-9]{2}(_[a-zA-Z0-9]+)?|_[a-zA-Z0-9]+'
+    
+    # Pattern for string constant - allows both " and ` quotes
+    string_constant_pattern = r'(\"[^\"]*\"|`[^`]*`)'
+    
+    # Pattern for number constant - allows optional +/- prefix
+    number_constant_pattern = r'[+-]?\d+(\.\d+)?'
+    
+    # Pattern for character constant - supports escape sequences
+    char_constant_pattern = r'\'(\\[ntrb\'\"\\]|[^\'])\''
     
     # Dictionary to store patterns and their names
     patterns = {
@@ -18,7 +25,7 @@ def check_pattern(word):
     matches = []
     # Check each pattern
     for pattern_name, pattern in patterns.items():
-        if pattern and re.fullmatch(pattern, word):
+        if re.fullmatch(pattern, word):
             matches.append(pattern_name)
     
     return matches
@@ -45,5 +52,13 @@ def main():
 
 if __name__ == "__main__":
     print("Pattern Matcher Program")
-    print("Enter 'quit' to exit the program")
+    print("Examples for valid identifiers:")
+    print("1. abc    (letter followed by 2 alphanumerics)")
+    print("2. abc_123 (letter followed by 2 alphanumerics and underscore part)")
+    print("3. _abc    (underscore followed by alphanumerics)")
+    print("\nOther examples:")
+    print("String constant: \"hello\" or `hello`")
+    print("Number constant: 123, -123, +123, 123.456")
+    print("Character constant: 'a', '\\n', '\\t', '\\r', '\\b', '\\'', '\\\"', '\\\\'")
+    print("\nEnter 'quit' to exit the program")
     main()
