@@ -6,10 +6,10 @@ def check_pattern(word):
     identifier_pattern = r'[a-zA-Z][a-zA-Z0-9]{2}(_[a-zA-Z0-9]+)?|_[a-zA-Z0-9]+'
     
     # Pattern for string constant - allows both " and ` quotes
-    string_constant_pattern = r'(\"[^\"]*\"|`[^`]*`)'
+    string_constant_pattern = r'("[^"]*"|[^]*`)'
     
     # Pattern for number constant - allows optional +/- prefix
-    number_constant_pattern = r'[+-]?\d+(\.\d+)?'
+    number_constant_pattern = r'[+-]?[0-9]+(\.[0-9]+)?'
     
     # Pattern for character constant - supports escape sequences
     char_constant_pattern = r'\'(\\[ntrb\'\"\\]|[^\'])\''
@@ -22,13 +22,13 @@ def check_pattern(word):
         'Character Constant': char_constant_pattern
     }
     
-    matches = []
+    match_pattern = ""
     # Check each pattern
     for pattern_name, pattern in patterns.items():
         if re.fullmatch(pattern, word):
-            matches.append(pattern_name)
+            match_pattern = pattern_name
     
-    return matches
+    return match_pattern
 
 def main():
     while True:
@@ -40,13 +40,11 @@ def main():
             break
         
         # Check the word against patterns
-        matched_patterns = check_pattern(word)
+        matched_pattern = check_pattern(word)
         
         # Display results
-        if matched_patterns:
-            print(f"'{word}' matches the following pattern(s):")
-            for pattern in matched_patterns:
-                print(f"- {pattern}")
+        if matched_pattern:
+            print(f"'{word}' matches the following pattern : {matched_pattern}")
         else:
             print(f"'{word}' doesn't match any of the defined patterns")
 
