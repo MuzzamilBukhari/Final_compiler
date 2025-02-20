@@ -6,7 +6,8 @@ def check_pattern(word):
     identifier_pattern = r'[a-zA-Z][a-zA-Z0-9]{2}(_[a-zA-Z0-9]+)?|_[a-zA-Z0-9]+'
     
     # Pattern for string constant - allows both " and ` quotes
-    string_constant_pattern = r'("[^"]*"|[^]*`)'
+    string_constant_pattern = r'("(\\[ntbr\'\"\\]|[^"\\])*"|`(\\[ntbr\'\"\\]|[^`\\])*`)' # ye bilkul sahi kam krrahi
+    # string_constant_pattern = r'("(\\[ntbr\'\"\\]|[^"])*"|`(\\[ntbr\'\"\\]|[^`])*`)' # ye bilkul sahi kam krrahi
     
     # Pattern for number constant - allows optional +/- prefix
     number_constant_pattern = r'[+-]?[0-9]+(\.[0-9]+)?'
