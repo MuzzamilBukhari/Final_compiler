@@ -1,6 +1,7 @@
-from keywords import keywords
-from operators import operators
-from punctuators import punctuators
+from keywords import match_keywords
+from operators import match_operators
+from punctuators import match_puncutators
+import pattern_matcher as pm
 
 class Token:
     def __init__(self, class_part, value_part, line_no):
@@ -28,39 +29,38 @@ def word_break(file : str, index : int, line_no : int):
 
     return temp, index, line_no
 
-def match_ID():
-    pass
-
-def match_keywords(word : str):
-    if word in keywords.keys:
-        return keywords[word]
-    return None
-
-def match_operators(word: str):
-    if word in operators.keys:
-        return operators[word]
-
-def match_puncutators(word: str):
-    if word in punctuators.keys:
-        return punctuators[word]
-
 def validate_word(word): # on working
-    print(word)
-    match word[0]:
-        case '[a-zA-Z]':
-            cp = match_ID(word)
-            if (cp):
-               return cp
-            cp = match_keywords(word)
-            if (cp):
-                return cp
-            return "Invalid lexene"
+    # print(word)
 
-        case _:
-            pass
+    cp = pm.match_ID(word)
+    if cp:
+        return cp
 
-    
-    return ""
+    cp = match_keywords(word)
+    if cp:
+        return cp
+
+    cp = match_operators(word)
+    if cp:
+        return cp
+
+    cp = match_puncutators(word)
+    if cp:
+        return cp
+
+    cp = pm.match_string_const(word)
+    if cp:
+        return cp
+
+    cp = pm.match_char_const(word)
+    if cp:
+        return cp
+
+    cp = pm.match_number_const(word)
+    if cp:
+        return cp
+
+    return "Invalid lexene"
 
 def LA (file):
     tokenSet = []

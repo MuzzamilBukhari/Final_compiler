@@ -1,3 +1,8 @@
+def match_operators(word: str):
+    if word in operators.keys():
+        return operators[word]
+
+
 operators = {
     "+": "PM",
     "-": "PM",

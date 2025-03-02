@@ -1,3 +1,8 @@
+def match_keywords(word : str):
+    if word in keywords.keys():
+        return keywords[word]
+    return None
+
 keywords = {
     "numberHai": "DT",
     "enumHai": "enum",
