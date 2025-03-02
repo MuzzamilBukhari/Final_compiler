@@ -15,49 +15,7 @@ class Token:
         print(self.line_no)
 
 
-# def word_break(file : str, index : int, line_no : int):
-    
-   
 
-   
-#     temp = "" 
-#     punctuatorsAndSingleOperators = {',', '(', ')', '{', '}', '[', ']', ':', ';', '?', '.', '+', '-', '*', '/', '%', '^'}
-
-#     while index < len(file):
-#         char = file[index]
-
-#         # If we already have some content in temp and a punctuator is encountered, return the word first
-#         if temp and char in punctuatorsAndSingleOperators:
-#             return temp, index, line_no  # Return the word first before handling punctuator
-
-#         # Handle newlines separately
-#         if char == '\n':
-#             line_no += 1
-#             index += 1
-#             if temp:
-#                 return temp, index, line_no  # Avoid returning an empty token
-#             continue  # Move to the next character if temp was empty
-
-#         # Handle spaces as word breakers
-#         if char == " ":
-#             index += 1
-#             if temp:
-#                 return temp, index, line_no  # Return the collected word
-#             continue  # Skip space without returning an empty token
-
-#         # If a punctuator is encountered
-#         if char in punctuatorsAndSingleOperators:
-#             # if temp:
-#             #     return temp, index, line_no  # Return the collected word first
-            
-#             index += 1
-#             return char, index, line_no  # Return the punctuator itself as a token
-        
-#         # Append normal characters to temp
-#         temp += char
-#         index += 1
-
-#     return temp, index, line_no #if temp else index, line_no  # Avoid returning an empty token at the end
 
 def word_break(file: str, index: int, line_no: int):
     temp = ""
