@@ -1,6 +1,10 @@
 from keywords import match_keywords
 from operators import match_operators
 from punctuators import match_puncutators
+from pattern_matcher import match_char_const
+from pattern_matcher import match_ID
+from pattern_matcher import match_ID
+from pattern_matcher import match_number_const
 import pattern_matcher as pm
 
 class Token:
@@ -21,9 +25,64 @@ def word_break(file: str, index: int, line_no: int):
     temp = ""
     punctuatorsAndSingleOperators = {',', '(', ')', '{', '}', '[', ']', ':', ';', '?', '.', '+', '-', '*', '/', '%', '^', '=', '<', '>'}
     multi_char_operators = {"!=", "==", "<=", ">=", "+=", "-=", "*=", "/=", "%=", "^="}  # Multi-character operators set
+    digits = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'}
+
 
     while index < len(file):
         char = file[index]
+        
+        #handling single line comment!
+        if char  == '#':
+            if temp:
+                return temp, index, line_no
+            else:
+                while(  file[index]!='\n' ):
+                    index+=1
+                    continue
+            continue
+
+        #handling multi line comments 
+        # if char  == '~':
+        #     if temp:
+              
+        #         return temp, index, line_no
+        #     else:
+        #         index+=1
+        #         while(  index<len(file) and file[index]!='~' ): #qk hame agli bar is character ko check krna he k kab aaya
+        #             if file[index]=='\n':
+        #                 line_no+=1
+        #             index+=1
+                    
+        #             continue
+        #     continue
+      
+
+        
+                
+
+
+        # Special handling for '.'
+        if char == '.':
+            if temp.isdigit():  # Check if temp contains only digits
+                # Check next character to confirm it's also a digit
+                if index + 1 < len(file) and file[index + 1] in digits:
+                    temp += char  # Consider '.' as part of number
+                    index+=1
+                    continue
+                else:
+                    return temp, index, line_no  # Break number before '.'
+            elif not temp:  # If temp is empty, check next char
+                if index + 1 < len(file) and file[index + 1] in digits:
+                    temp += char  # Consider '.' as part of floating-point number
+                    index+=1
+                    continue
+                else:
+                    return ".", index + 1, line_no  # '.' as separate token
+            else:
+                return temp, index, line_no  # Break word before '.'
+
+
+
 
         # If we already have some content in temp and a punctuator is encountered, return the word first
         if temp and char in punctuatorsAndSingleOperators:
@@ -39,10 +98,16 @@ def word_break(file: str, index: int, line_no: int):
 
         # Handle spaces as word breakers
         if char == " ":
-            index += 1
-            if temp:
-                return temp, index, line_no  # Return the collected word
-            continue  # Skip space without returning an empty token
+            if(index + 1 < len(file)): # last space ko handle krne k lye!
+                index += 1
+                if temp:
+                    return temp, index, line_no  # Return the collected word
+                continue  # Skip space without returning an empty token
+            
+
+        # Handle spaces as word breakers
+       
+
 
         # Handle multi-character operators (Lookahead logic)
         if char in {"!", "=", "<", ">", "+", "-", "*", "/", "%", "^"}:
@@ -52,6 +117,7 @@ def word_break(file: str, index: int, line_no: int):
 
                 if potential_operator in multi_char_operators:
                     index += 2  # Move past both characters
+                    print("me multi me aaya!", potential_operator )
                     return potential_operator, index, line_no  # Return multi-character operator
 
         # If a single-character operator is encountered
@@ -62,8 +128,8 @@ def word_break(file: str, index: int, line_no: int):
         # Append normal characters to temp
         temp += char
         index += 1
-
-    return temp, index, line_no  # Avoid returning an empty token at the end
+    
+    return temp, index, line_no  
 
 
 
