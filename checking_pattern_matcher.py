@@ -3,22 +3,35 @@ import re
 def match_ID(word: str):
     """Checks if the given word matches the identifier pattern."""
     identifier_pattern = r'[a-zA-Z][a-zA-Z0-9]{2}(_[a-zA-Z0-9]+)?|_[a-zA-Z0-9]+'
-    return bool(re.fullmatch(identifier_pattern, word))
+    if bool(re.fullmatch(identifier_pattern, word)):
+        return "Identifier"
+    else:
+        return
+    
 
 def match_string_const(word: str):
     """Checks if the given word matches the string constant pattern."""
     string_constant_pattern = r'("(\\[ntbr\'\"\\]|[^"\\])*"|`(\\[ntbr\'\"\\]|[^`\\])*`)'
-    return bool(re.fullmatch(string_constant_pattern, word))
+    if bool(re.fullmatch(string_constant_pattern, word)):
+        return "String Constant"
+    else:
+        return
 
 def match_number_const(word: str):
     """Checks if the given word matches the number constant pattern."""
     number_constant_pattern = r'[+-]?[0-9]+(\.[0-9]+)?'
-    return bool(re.fullmatch(number_constant_pattern, word))
+    if bool(re.fullmatch(number_constant_pattern, word)):
+        return "Number Constant"
+    else:
+        return 
 
 def match_char_const(word: str):
     """Checks if the given word matches the character constant pattern."""
     char_constant_pattern = r'\'(\\[ntrb\'\"\\]|[^\'])\''
-    return bool(re.fullmatch(char_constant_pattern, word))
+    if bool(re.fullmatch(char_constant_pattern, word)):
+        return "Char Constant"
+    else:
+        return 
 
 # def main():
 #     print("Pattern Matcher Program for")
