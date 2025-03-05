@@ -106,11 +106,11 @@ def word_break(file: str, index: int, line_no: int):
 
         # Handle spaces as word breakers
         if char == " ":
-            if(index + 1 < len(file)): # last space ko handle krne k lye!
+            if(index + 1 <= len(file)): # last space ko handle krne k lye!
                 index += 1
                 if temp:
                     return temp, index, line_no  # Return the collected word
-                continue  # Skip space without returning an empty token
+                continue  # Skip space without returning an empty token jo bhi beech ki spaces hongi , unko handle krne k lye!
             
 
     
@@ -134,6 +134,7 @@ def word_break(file: str, index: int, line_no: int):
             return char, index, line_no  # Return the operator itself as a token
 
         # Append normal characters to temp
+        
         temp += char
         index += 1
     
