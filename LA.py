@@ -1,11 +1,11 @@
 from keywords import match_keywords
 from operators import match_operators
 from punctuators import match_puncutators
-from pattern_matcher import match_char_const
-from pattern_matcher import match_ID
-from pattern_matcher import match_ID
-from pattern_matcher import match_number_const
-import pattern_matcher as pm
+from checking_pattern_matcher import match_char_const
+from checking_pattern_matcher import match_string_const
+from checking_pattern_matcher import match_ID
+from checking_pattern_matcher import match_number_const
+import checking_pattern_matcher as pm
 
 class Token:
     def __init__(self, class_part, value_part, line_no):
@@ -41,21 +41,29 @@ def word_break(file: str, index: int, line_no: int):
                     continue
             continue
 
-        #handling multi line comments 
-        # if char  == '~':
-        #     if temp:
-              
-        #         return temp, index, line_no
-        #     else:
-        #         index+=1
-        #         while(  index<len(file) and file[index]!='~' ): #qk hame agli bar is character ko check krna he k kab aaya
-        #             if file[index]=='\n':
-        #                 line_no+=1
-        #             index+=1
-                    
-        #             continue
-        #     continue
       
+# handling multi line comments      
+
+        if char == '~':
+    # Agar koi token (temp) already accumulate hua hai, to usko return karo pehle
+            if temp:
+                return temp, index, line_no
+
+    # Ab hum multi-line comment mode me hain, starting '~' ko skip karo
+            index += 1
+
+    # Loop chalao jab tak closing '~' nahi mil jati ya file khatam nahi ho jati
+            while index < len(file) and file[index] != '~':
+                if file[index] == '\n':
+                    line_no += 1  # Har newline pe line number increment karo
+                index += 1
+
+    # Agar closing '~' mil jati hai, use bhi skip kar do
+            if index < len(file) and file[index] == '~':
+                index += 1
+
+    # Comment block complete ho gaya, ab agla token process karne ke liye loop continue karo
+            continue
 
         
                 
@@ -105,7 +113,7 @@ def word_break(file: str, index: int, line_no: int):
                 continue  # Skip space without returning an empty token
             
 
-        # Handle spaces as word breakers
+    
        
 
 
