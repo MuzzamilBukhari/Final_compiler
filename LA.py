@@ -6,6 +6,11 @@ from checking_pattern_matcher import match_string_const
 from checking_pattern_matcher import match_ID
 from checking_pattern_matcher import match_number_const
 import checking_pattern_matcher as pm
+from checking_pattern_matcher import match_char_const
+from checking_pattern_matcher import match_string_const
+from checking_pattern_matcher import match_ID
+from checking_pattern_matcher import match_number_const
+import checking_pattern_matcher as pm
 
 class Token:
     def __init__(self, class_part, value_part, line_no):
