@@ -38,7 +38,7 @@ def word_break(file: str, index: int, line_no: int):
             else:
                 while(  file[index]!='\n' ):
                     index+=1
-                    continue
+                    
             continue
 
       
