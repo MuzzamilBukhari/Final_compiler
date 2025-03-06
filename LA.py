@@ -1,15 +1,6 @@
 from keywords import match_keywords
 from operators import match_operators
 from punctuators import match_puncutators
-from checking_pattern_matcher import match_char_const
-from checking_pattern_matcher import match_string_const
-from checking_pattern_matcher import match_ID
-from checking_pattern_matcher import match_number_const
-import checking_pattern_matcher as pm
-from checking_pattern_matcher import match_char_const
-from checking_pattern_matcher import match_string_const
-from checking_pattern_matcher import match_ID
-from checking_pattern_matcher import match_number_const
 import checking_pattern_matcher as pm
 
 class Token:
@@ -199,8 +190,8 @@ def LA (file):
         # print(index)
         class_part = validate_word(temp)
         token = Token(class_part, temp, line_no)
-        # tokenSet.append(token)
+        tokenSet.append(token)
         # tokenSet.append({ 'value_part': token.value_part,'class_part': token.class_part, 'line_no':token.line_no})
-        tokenSet.append((token.value_part, token.class_part,token.line_no))
+        # tokenSet.append((token.value_part, token.class_part,token.line_no))
     return tokenSet
 
