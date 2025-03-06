@@ -116,35 +116,7 @@ def word_break(file: str, index: int, line_no: int):
         
 
 
-        # if char == '"' or char == '`':  # Check for string start delimiters
-        #     delimeter=char         
-                             
-
-        #     if temp:
-        #         return temp, index, line_no 
-            
-        #     temp+=char
-        #     index+=1
-            
-                      
-
-        #     # Process until closing delimiter is found or file end is reached
-        #     while index < len(file) and file[index] !=delimeter :
-        #         # Handle newlines within string, if needed
-        #         if file[index] == '\n':
-        #             line_no += 1
-        #         # Append character to string token
-        #         temp += file[index]
-        #         index += 1
-
-        #     # Check if closing delimiter was found; if so, skip it
-        #     if index < len(file) and file[index] == delimeter:
-        #         temp+=file[index]
-        #         index += 1
-
-
-        #     # Return the string token (you can modify class_part as per your requirement)
-        #     return temp, index, line_no
+     
         
 
 
