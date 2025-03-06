@@ -14,9 +14,8 @@ class Token:
         self.line_no = line_no
 
     def print(self):
-        print(self.class_part)
-        print(self.value_part)
-        print(self.line_no)
+        print(f"Value Part : {self.value_part} | Class Part : {self.class_part} | Line no : {self.line_no}")
+        
 
 
 
@@ -228,9 +227,33 @@ def word_break(file: str, index: int, line_no: int):
 
 
 
-def validate_word(word): # on working
+def validate_word(word : str): # on working
     # print(word)
 
+    if (word[0] == '_'):
+        cp = pm.match_ID(word)
+        if cp:
+            return cp
+        return "Invalid Lexene"
+
+    if (word[0] == '"' or word[0] == '`'):
+        cp = pm.match_string_const(word)
+        if cp:
+            return cp
+        return "Invalid Lexene"
+    
+    if word[0] == "'":
+        cp = pm.match_char_const(word)
+        if cp:
+            return cp
+        return "Invalid Lexene"
+    
+    if (word[0].isdigit() or word[0] == '.'):
+        cp = pm.match_number_const(word)
+        if cp:
+            return cp
+        return "Invalid Lexene"
+    
     cp = pm.match_ID(word)
     if cp:
         return cp
@@ -270,9 +293,9 @@ def LA (file):
         # print(index)
         class_part = validate_word(temp)
         token = Token(class_part, temp, line_no)
-        # tokenSet.append(token)
+        tokenSet.append(token)
         # tokenSet.append({ 'value_part': token.value_part,'class_part': token.class_part, 'line_no':token.line_no})
-        tokenSet.append((token.value_part, token.class_part,token.line_no))
+        # tokenSet.append((token.value_part, token.class_part,token.line_no))
     return tokenSet
 
 

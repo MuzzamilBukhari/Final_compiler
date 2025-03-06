@@ -19,7 +19,7 @@ def match_string_const(word: str):
 
 def match_number_const(word: str):
     """Checks if the given word matches the number constant pattern."""
-    number_constant_pattern = r'[+-]?[0-9]+(\.[0-9]+)?'
+    number_constant_pattern = r'[+-]?[0-9]*(\.[0-9]+)?'
     if bool(re.fullmatch(number_constant_pattern, word)):
         return "Number Constant"
     else:
