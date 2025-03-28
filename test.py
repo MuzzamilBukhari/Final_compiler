@@ -13,3 +13,8 @@ print(val.isdigit()) # is method se ham string me integers ko check krsaty hen!
 #                 index += 1  # Comment ke characters skip karo
 #             index += 1  # Newline bhi skip kar do
 #             continue  # Agla character process karo
+
+# a = "r
+# a += alkdlk
+a = r"abc\n"
+print(a)

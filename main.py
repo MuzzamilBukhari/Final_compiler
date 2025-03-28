@@ -1,8 +1,10 @@
+import sys
+sys.path.append('lexical analyzer')
+
 from LA import LA
 
-
 if __name__ == '__main__':
-    file = open('word.txt', 'rt')
+    file = open('hmara.txt', 'rt')
     # src = file.readlines()
     src = file.read()
     file.close()

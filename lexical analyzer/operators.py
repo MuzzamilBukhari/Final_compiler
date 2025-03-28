@@ -20,8 +20,8 @@ operators = {
     "<=": "RO1",
     ">=": "RO1",
     
-    "AUR": "LO2",
-    "YA": "LO2",
+    "&": "LO2",
+    "|": "LO2",
     
     "=": "=",
     
@@ -32,5 +32,5 @@ operators = {
     "^=": "COMPASS",
     "%=": "COMPASS",
     
-    "NAHI": "LO1"
+    "!": "LO1"
 }

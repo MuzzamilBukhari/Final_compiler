@@ -1,10 +1,6 @@
 from keywords import match_keywords
 from operators import match_operators
 from punctuators import match_puncutators
-from checking_pattern_matcher import match_char_const
-from checking_pattern_matcher import match_string_const
-from checking_pattern_matcher import match_ID
-from checking_pattern_matcher import match_number_const
 import checking_pattern_matcher as pm
 
 class Token:
@@ -14,18 +10,17 @@ class Token:
         self.line_no = line_no
 
     def print(self):
-        print(f"Value Part : {self.value_part} | Class Part : {self.class_part} | Line no : {self.line_no}")
+        print(f"Value Part -> {self.value_part} | Class Part -> {self.class_part} | Line no -> {self.line_no}")
         
 
 
 
 
 def word_break(file: str, index: int, line_no: int):
-    temp = ""
-    punctuatorsAndSingleOperators = {',', '(', ')', '{', '}', '[', ']', ':', '?', '.', '+', '-', '*', '/', '%', '^', '=', '<', '>'}
+    temp = r""
+    punctuatorsAndSingleOperators = {',', '(', ')', '{', '}', '[', ']', ':', '?', '.', '+', '-', '*', '/', '%', '^', '=', '<', '>', '!', '&', '|'}
     multi_char_operators = {"!=", "==", "<=", ">=", "+=", "-=", "*=", "/=", "%=", "^="}  # Multi-character operators set
     digits = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'}
-
 
     while index < len(file): 
         char = file[index]
@@ -143,6 +138,7 @@ def word_break(file: str, index: int, line_no: int):
 
                 # Handle newlines within the string (if needed)
                 if file[index] == '\n':
+                    temp += r"\n"
                     line_no += 1
 
                 # Append the normal character to the string token
@@ -184,6 +180,7 @@ def word_break(file: str, index: int, line_no: int):
                 # Handle newlines within the literal (if needed)
                 if file[index] == '\n':
                     line_no += 1
+                    return temp, index, line_no
 
                 # Append the normal character to the token
                 temp += file[index]
@@ -198,9 +195,6 @@ def word_break(file: str, index: int, line_no: int):
             return temp, index, line_no
 
 
-       
-
-
         # Handle multi-character operators (Lookahead logic)
         if char in {"!", "=", "<", ">", "+", "-", "*", "/", "%", "^"}:
             if index + 1 < len(file):  # Ensure we don't go out of bounds
@@ -209,7 +203,6 @@ def word_break(file: str, index: int, line_no: int):
 
                 if potential_operator in multi_char_operators:
                     index += 2  # Move past both characters
-                    print("me multi me aaya!", potential_operator )
                     return potential_operator, index, line_no  # Return multi-character operator
 
         # If a single-character operator is encountered
@@ -227,7 +220,7 @@ def word_break(file: str, index: int, line_no: int):
 
 
 
-def validate_word(word : str): # on working
+def validate_word(word : str): 
     # print(word)
 
     if (word[0] == '_'):
