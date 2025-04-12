@@ -163,36 +163,66 @@ def word_break(file: str, index: int, line_no: int):
             temp += char  # Append the opening delimiter
             index += 1  # Skip the opening delimiter
 
-            # Process characters until the closing delimiter is found or file ends
-            while index < len(file) and file[index] != delimiter:
-                # If an escape sequence is encountered, process it
-                if file[index] == '\\':
-                    if index + 1 < len(file):
-                        temp += file[index]      # Append the backslash
-                        temp += file[index + 1]    # Append the escaped character
-                        index += 2  # Skip both characters
-                        continue
-                    else:
-                        temp += file[index]
-                        index += 1
-                        continue
-
-                # Handle newlines within the literal (if needed)
+            count = 0
+            while index < len(file) and count < 3:
                 if file[index] == '\n':
-                    line_no += 1
-                    return temp, index, line_no
+                    line_no += 1  # Update line number if newline found
 
-                # Append the normal character to the token
-                temp += file[index]
-                index += 1
+                # Escape sequence handling
+                if file[index] == '\\' and index + 1 < len(file) and count <= 1:
+                    temp += file[index]      # Add backslash
+                    temp += file[index + 1]  # Add escaped character
+                    index += 2
+                    count += 2
+                else:
+                    temp += file[index]
+                    index += 1
+                    count += 1
 
-            # If the closing delimiter is found, append it and move past it
-            if index < len(file) and file[index] == delimiter:
-                temp += file[index]
-                index += 1
+                # Break if closing quote found
+                if temp[-1] == delimiter:
+                    break
 
-            # Return the full token including delimiters and escape sequences
             return temp, index, line_no
+
+
+        # if char == "'":  # Check for single-quote start delimiter
+        #     delimiter = char  # Store the delimiter (')
+        #     if temp:
+        #         return temp, index, line_no  # Return any accumulated token first
+        #     temp += char  # Append the opening delimiter
+        #     index += 1  # Skip the opening delimiter
+
+        #     # Process characters until the closing delimiter is found or file ends
+        #     while index < len(file) and file[index] != delimiter:
+        #         # If an escape sequence is encountered, process it
+        #         if file[index] == '\\':
+        #             if index + 1 < len(file):
+        #                 temp += file[index]      # Append the backslash
+        #                 temp += file[index + 1]    # Append the escaped character
+        #                 index += 2  # Skip both characters
+        #                 continue
+        #             else:
+        #                 temp += file[index]
+        #                 index += 1
+        #                 continue
+
+        #         # Handle newlines within the literal (if needed)
+        #         if file[index] == '\n':
+        #             line_no += 1
+        #             return temp, index, line_no
+
+        #         # Append the normal character to the token
+        #         temp += file[index]
+        #         index += 1
+
+        #     # If the closing delimiter is found, append it and move past it
+        #     if index < len(file) and file[index] == delimiter:
+        #         temp += file[index]
+        #         index += 1
+
+        #     # Return the full token including delimiters and escape sequences
+        #     return temp, index, line_no
 
 
         # Handle multi-character operators (Lookahead logic)

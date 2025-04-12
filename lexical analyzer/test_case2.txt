@@ -1,5 +1,6 @@
 class A_B__C::56BCA
 while (a<<<==b!!&&=56bc
+yee 'bcdef '/n'  '\n' '\trty' 'r' 'rt' '' '\z'
 String str"abc==56xy==75\\"+=
 a+'++'\n'\\'\\'++'++'r
 a=="abc//xyz
