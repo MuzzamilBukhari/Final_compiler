@@ -13,7 +13,7 @@ def match_string_const(word: str):
     """Checks if the given word matches the string constant pattern."""
     string_constant_pattern = r'("(\\[ntbr\'\"\\]|[^"\\])*"|`(\\[ntbr\'\"\\]|[^`\\])*`)'
     if bool(re.fullmatch(string_constant_pattern, word)):
-        return "String Constant"
+        return "str_const"
     else:
         return
 
@@ -21,7 +21,7 @@ def match_number_const(word: str):
     """Checks if the given word matches the number constant pattern."""
     number_constant_pattern = r'[+-]?[0-9]*(\.[0-9]+)?'
     if bool(re.fullmatch(number_constant_pattern, word)):
-        return "Number Constant"
+        return "num_const"
     else:
         return 
 
@@ -29,7 +29,7 @@ def match_char_const(word: str):
     """Checks if the given word matches the character constant pattern."""
     char_constant_pattern = r'\'(\\[ntrb\'\"\\]|[^\'])\''
     if bool(re.fullmatch(char_constant_pattern, word)):
-        return "Char Constant"
+        return "char_const"
     else:
         return 
 
