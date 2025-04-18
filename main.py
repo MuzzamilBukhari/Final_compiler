@@ -4,7 +4,7 @@ sys.path.append('lexical analyzer')
 from LA import LA
 
 if __name__ == '__main__':
-    file = open('lexical analyzer/test_case3.txt', 'rt')
+    file = open('lexical analyzer/test_case2.txt', 'rt')
     # src = file.readlines()
     src = file.read()
     file.close()
@@ -13,4 +13,3 @@ if __name__ == '__main__':
     tokenSet = LA(src)
     for token in tokenSet:
          token.print()
-    # print('tokenSet list=  ',tokenSet)

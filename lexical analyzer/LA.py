@@ -319,6 +319,9 @@ def LA (file):
         tokenSet.append(token)
         # tokenSet.append({ 'value_part': token.value_part,'class_part': token.class_part, 'line_no':token.line_no})
         # tokenSet.append((token.value_part, token.class_part,token.line_no))
+    
+    token = Token("$", "", line_no)
+    tokenSet.append(token)
     return tokenSet
 
 
