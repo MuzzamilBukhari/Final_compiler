@@ -25,6 +25,16 @@ def word_break(file: str, index: int, line_no: int):
     while index < len(file): 
         char = file[index]
         
+
+        # Handle newlines separately
+        if char == '\n':
+            if temp:
+                return temp, index, line_no  # Avoid returning an empty token
+            line_no += 1
+            index += 1
+            continue  # Move to the next character if temp was empty
+
+
         #handling single line comment!
         if char  == '#':
             if temp:
@@ -90,14 +100,7 @@ def word_break(file: str, index: int, line_no: int):
         if temp and char in punctuatorsAndSingleOperators:
             return temp, index, line_no  # Return the word before handling the operator
 
-        # Handle newlines separately
-        if char == '\n':
-            line_no += 1
-            index += 1
-            if temp:
-                return temp, index, line_no  # Avoid returning an empty token
-            continue  # Move to the next character if temp was empty
-
+        
         # Handle spaces as word breakers
         if char == " ":
             if(index + 1 <= len(file)): # last space ko handle krne k lye!
