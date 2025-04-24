@@ -30,9 +30,22 @@ def word_break(file: str, index: int, line_no: int):
         if char == '\n':
             if temp:
                 return temp, index, line_no  # Avoid returning an empty token
+             
             line_no += 1
             index += 1
-            continue  # Move to the next character if temp was empty
+            return r"\n", index, line_no  # Return newline token before increasing line_no
+
+              
+
+        #     continue  # Move to the next character if temp was empty
+
+        # if char == '\n':
+        #         if temp:
+        #            return temp, index, line_no  # Return token before handling newline
+
+        #         # temp is empty, so we treat '\n' itself as a token
+        #         index += 1
+        #         return r"\n", index, line_no  # Return newline token before increasing line_no
 
 
         #handling single line comment!
@@ -316,10 +329,16 @@ def LA (file):
     line_no = 1
     while(index != len(file)):
         temp, index, line_no = word_break(file, index, line_no)
+        if temp==r"\n":
+            class_part = validate_word(temp)
+            token = Token(class_part, temp, line_no-1)
+            tokenSet.append(token)
+
+        else:
         # print(index)
-        class_part = validate_word(temp)
-        token = Token(class_part, temp, line_no)
-        tokenSet.append(token)
+            class_part = validate_word(temp)
+            token = Token(class_part, temp, line_no)
+            tokenSet.append(token)
         # tokenSet.append({ 'value_part': token.value_part,'class_part': token.class_part, 'line_no':token.line_no})
         # tokenSet.append((token.value_part, token.class_part,token.line_no))
     
