@@ -4,7 +4,7 @@ def match_ID(word: str):
     """Checks if the given word matches the identifier pattern."""
     identifier_pattern = r'[a-zA-Z][a-zA-Z0-9]{2}(_[a-zA-Z0-9]+)?|_[a-zA-Z0-9]+'
     if bool(re.fullmatch(identifier_pattern, word)):
-        return "Identifier"
+        return "ID"
     else:
         return
     

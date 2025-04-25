@@ -33,11 +33,15 @@ keywords = {
     "errorPakro": "catch",
     "yetoHoga": "finally",
     "hissaHai": "instanceof",
-    "ye": "pointer",
+    
     "mustaqil": "static",
-    "bareSahab": "super",
+    "bareSahab": "TS",
+    "chotySahab" : "TS",
     "mehfooz": "AM",
     "zaati": "AM",
     "awami": "AM",
-    "hatmi": "final"
+    "hatmi": "final",
+    "enum" : "enum",
+    "dict" : "dict",
+    "phenkdo" : "throw"
 }
