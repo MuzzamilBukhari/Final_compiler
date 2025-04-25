@@ -27,8 +27,8 @@ keywords = {
     "aaneDo": "input",
     "jamaat": "class",
     "ehamHissa": "interface",
-    "hai": "extend",
-    "nafizkro": "implement",
+    "hai": "extends",
+    "nafizkro": "implements",
     "riskLo": "try",
     "errorPakro": "catch",
     "yetoHoga": "finally",
@@ -41,7 +41,6 @@ keywords = {
     "zaati": "AM",
     "awami": "AM",
     "hatmi": "final",
-    "enum" : "enum",
     "dict" : "dict",
     "phenkdo" : "throw"
 }
