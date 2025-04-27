@@ -591,7 +591,18 @@ class SA:
                                             return True
                 # If any condition fails, return False
         return False
-
+    
+    def ch2(self):
+        if self.TS[self.index].CP in {'final', 'class'}:
+            if self.TS[self.index].CP == 'final':
+                self.index += 1
+                return True
+            elif self.TS[self.index].CP == 'class':
+                self.index += 1
+                return True
+            # If any condition fails, return False
+        return False
+    
     def extends_st_interface(self):
         if self.TS[self.index].CP in {'extends', ':'}:
             if self.TS[self.index].CP == 'extends':
