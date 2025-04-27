@@ -28,6 +28,19 @@ class SA:
                                     if self.body1():
                                         if self.defs():
                                             return True
+            elif self.TS[self.index].CP == 'void':
+                self.index += 1
+                if self.TS[self.index].CP == 'ID':
+                    self.index += 1
+                    if self.TS[self.index].CP == '{':
+                        self.index += 1
+                        if self.TS[self.index].CP == '}':
+                            self.index += 1
+                            if self.TS[self.index].CP == ':':
+                                self.index += 1
+                                if self.body():
+                                    if self.defs():
+                                        return True
             # If any condition fails, return False
         return False
 

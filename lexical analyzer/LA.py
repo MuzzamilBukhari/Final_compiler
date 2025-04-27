@@ -323,7 +323,7 @@ def validate_word(word : str):
 
     return "Invalid lexene"
 
-def LA (file):
+def LA(file):
     tokenSet = []
     index = 0
     line_no = 1
@@ -344,6 +344,21 @@ def LA (file):
     
     token = Token("$", "", line_no)
     tokenSet.append(token)
-    return tokenSet
+
+    # Filter consecutive newline tokens, keeping only one
+    filtered_tokenSet = []
+    i = 0
+    while i < len(tokenSet):
+        current_token = tokenSet[i]
+        filtered_tokenSet.append(current_token)
+        
+        # If current token is a newline, skip all consecutive newline tokens
+        if current_token.CP == r'\n':
+            while i + 1 < len(tokenSet) and tokenSet[i + 1].CP == r'\n':
+                i += 1
+        
+        i += 1
+    
+    return filtered_tokenSet
 
 
