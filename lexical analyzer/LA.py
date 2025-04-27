@@ -4,13 +4,13 @@ from punctuators import match_puncutators
 import checking_pattern_matcher as pm
 
 class Token:
-    def __init__(self, class_part, value_part, line_no):
-        self.class_part = class_part
-        self.value_part = value_part
+    def __init__(self, CP, VP, line_no):
+        self.CP = CP
+        self.VP = VP
         self.line_no = line_no
 
     def print(self):
-        print(f"Value Part -> {self.value_part} | Class Part -> {self.class_part} | Line no -> {self.line_no}")
+        print(f"Value Part -> {self.VP} | Class Part -> {self.CP} | Line no -> {self.line_no}")
         
 
 
@@ -330,17 +330,17 @@ def LA (file):
     while(index != len(file)):
         temp, index, line_no = word_break(file, index, line_no)
         if temp==r"\n":
-            class_part = validate_word(temp)
-            token = Token(class_part, temp, line_no-1)
+            CP = validate_word(temp)
+            token = Token(CP, temp, line_no-1)
             tokenSet.append(token)
 
         else:
         # print(index)
-            class_part = validate_word(temp)
-            token = Token(class_part, temp, line_no)
+            CP = validate_word(temp)
+            token = Token(CP, temp, line_no)
             tokenSet.append(token)
-        # tokenSet.append({ 'value_part': token.value_part,'class_part': token.class_part, 'line_no':token.line_no})
-        # tokenSet.append((token.value_part, token.class_part,token.line_no))
+        # tokenSet.append({ 'VP': token.VP,'CP': token.CP, 'line_no':token.line_no})
+        # tokenSet.append((token.VP, token.CP,token.line_no))
     
     token = Token("$", "", line_no)
     tokenSet.append(token)

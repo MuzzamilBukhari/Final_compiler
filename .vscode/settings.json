@@ -1,6 +1,7 @@
 {
   "python.analysis.extraPaths": [
     "./lexical",
-    "./lexical analyzer"
+    "./lexical analyzer",
+    "./syntax analyzer"
   ]
 }
