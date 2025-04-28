@@ -4,10 +4,10 @@ class SA:
         self.TS = TS
         self.index = 0
         if (self.S()):
-            print("S me agya")
-            print(self.TS[self.index].CP)
             if (self.TS[self.index].CP in {'$'}):
                 print("Syntax is correct")
+            else:
+                print("Syntax error in line ", self.TS[self.index].line_no)
         else:
             print("Syntax error in line ", self.TS[self.index].line_no)
         
@@ -49,6 +49,15 @@ class SA:
                                 self.index += 1
                                 print("Exiting import_st: True")
                                 return True
+                            else:
+                                return False
+                        else:
+                            return False
+                    else:
+                        return False
+                else: 
+                    return False
+                
             elif self.TS[self.index].CP == 'from':
                 self.index += 1
                 if self.TS[self.index].CP == 'ID':
@@ -61,6 +70,14 @@ class SA:
                                 self.index += 1
                                 print("Exiting import_st: True")
                                 return True
+                            else:
+                                return False
+                        else:
+                            return False
+                    else: 
+                        return False
+                else:
+                    return False
             return True
         print("Exiting import_st: False")
         return False
@@ -74,6 +91,10 @@ class SA:
                     if self.AE_prime():
                         print("Exiting AE_prime: True")
                         return True
+                    else:
+                        return False
+                else: 
+                    return False
             print("Exiting AE_prime: True (default path)")
             return True
         print("Exiting AE_prime: False")
@@ -99,9 +120,12 @@ class SA:
                     if self.E_prime():
                         print("Exiting E_prime: True")
                         return True
-            print("Exiting E_prime: True (default path)")
+                    else:
+                        return False
+                else: 
+                    return False
+                    
             return True
-        print("Exiting E_prime: False")
         return False
 
     def E(self):
@@ -112,7 +136,6 @@ class SA:
                     print("Exiting E: True")
                     return True
             # If any condition fails, return False
-        print("Exiting E: False")
         return False
 
     def F1(self):
@@ -125,15 +148,21 @@ class SA:
                         self.index += 1
                         print("Exiting F1: True ({ path)")
                         return True
+                    else:
+                        return False
+                else: 
+                    return False
+                
             elif self.TS[self.index].CP == 'instanceof':
                 self.index += 1
                 if self.TS[self.index].CP == 'ID':
                     self.index += 1
                     print("Exiting F1: True (instanceof path)")
                     return True
+                else:
+                    return False
             print("Exiting F1: True (default path)")
             return True
-        print("Exiting F1: False")
         return False
 
     def F(self):
@@ -170,7 +199,6 @@ class SA:
                     if self.F1():
                         print("Exiting F: True (ID path)")
                         return True
-        print("Exiting F: False")
         return False
 
     def MST(self):
@@ -180,9 +208,11 @@ class SA:
                 if self.MST():
                     print("Exiting MST: True (recursive path)")
                     return True
+                else:
+                    return False
+                
             print("Exiting MST: True (default path)")
             return True
-        print("Exiting MST: False")
         return False
 
     def RE1_prime(self):
@@ -194,9 +224,12 @@ class SA:
                     if self.RE1_prime():
                         print("Exiting RE1_prime: True (RO2 path)")
                         return True
+                    else:
+                        return False
+                else:
+                    return False
             print("Exiting RE1_prime: True (default path)")
             return True
-        print("Exiting RE1_prime: False")
         return False
 
     def RE1(self):
@@ -207,7 +240,6 @@ class SA:
                     print("Exiting RE1: True")
                     return True
             # If any condition fails, return False
-        print("Exiting RE1: False")
         return False
 
     def OE_prime(self):
@@ -219,9 +251,12 @@ class SA:
                     if self.OE_prime():
                         print("Exiting OE_prime: True (LO2 path)")
                         return True
+                    else:
+                        return False
+                else:
+                    return False
             print("Exiting OE_prime: True (default path)")
             return True
-        print("Exiting OE_prime: False")
         return False
 
     def OE(self):
@@ -239,6 +274,10 @@ class SA:
                 if self.RE1():
                     if self.RE2_prime():
                         return True
+                    else:
+                        return False
+                else:
+                    return False
             return True
         return False
 
@@ -376,9 +415,11 @@ class SA:
                     if self.T_prime():
                         print("Exiting T_prime: True (MDME path)")
                         return True
-            print("Exiting T_prime: True (default path)")
+                    else:
+                        return False
+                else:
+                    return False
             return True
-        print("Exiting T_prime: False")
         return False
 
     def T(self):
@@ -405,6 +446,9 @@ class SA:
             if self.OE():
                 if self.list_args():
                     return True
+                else:
+                    return False
+                
             return True
         return False
 
@@ -415,6 +459,11 @@ class SA:
                 if self.OE():
                     if self.list_args():
                         return True
+                    else:
+                        return False
+                else:
+                    return False
+                
             return True
         return False
 
@@ -426,6 +475,11 @@ class SA:
                     self.index += 1
                     if self.arr_mul():
                         return True
+                    else:
+                        return False
+                else:
+                    return False
+                
             return True
         return False
 
@@ -438,6 +492,12 @@ class SA:
                         self.index += 1
                         if self.arr_size():
                             return True
+                        else:
+                            return False
+                    else:
+                        return False
+                else:
+                    return False
             return True
         return False
 
@@ -447,6 +507,9 @@ class SA:
                 self.index += 1
                 if self.values():
                     return True
+                else:
+                    return False
+                
             return True
         return False
 
@@ -481,9 +544,7 @@ class SA:
         print(f"Entering const at index {self.index}, token: {self.TS[self.index].CP}")
         if self.TS[self.index].CP in {'str_const', 'num_const', 'char_const', 'bool_const', 'null_const'}:
             self.index += 1
-            print("Exiting const: True")
             return True
-        print("Exiting const: False")
         return False
 
     def extends_st(self):
@@ -493,6 +554,9 @@ class SA:
                 if self.TS[self.index].CP == 'ID':
                     self.index += 1
                     return True
+                else:
+                    return False
+                
             return True
         return False
 
@@ -504,6 +568,10 @@ class SA:
                     self.index += 1
                     if self.interface_rec():
                         return True
+                    else:
+                        return False
+                else:
+                    return False
             return True
         return False
 
@@ -515,6 +583,10 @@ class SA:
                     self.index += 1
                     if self.interface_rec():
                         return True
+                    else:
+                        return False
+                else:
+                    return False
             return True
         return False
 
@@ -523,6 +595,8 @@ class SA:
             if self.func_def():
                 if self.defs():
                     return True
+                else:
+                    return False
             elif self.TS[self.index].CP == 'class':
                 self.index += 1
                 if self.TS[self.index].CP == 'ID':
@@ -538,10 +612,30 @@ class SA:
                                             self.index += 1
                                             if self.defs():
                                                 return True
+                                            else:
+                                                return False
+                                        else:
+                                            return False
+                                    else:
+                                        return False
+                                else:
+                                    return False
+                            else:
+                                return False
+                        else:
+                            return False
+                    else:
+                        return False
+                else: 
+                    return False
+                
             elif self.TS[self.index].CP == 'AM':
                 self.index += 1
                 if self.defs2():
                     return True
+                else:
+                    return False
+                
             elif self.TS[self.index].CP == 'final':
                 self.index += 1
                 if self.TS[self.index].CP == 'class':
@@ -559,6 +653,24 @@ class SA:
                                                 self.index += 1
                                                 if self.defs():
                                                     return True
+                                                else:
+                                                    return False
+                                            else:
+                                                return False
+                                        else:
+                                            return False
+                                    else:
+                                        return False  
+                                else:
+                                    return False
+                            else:
+                                return False
+                        else:
+                            return False
+                    else:
+                        return False
+                else:
+                    return False  
             elif self.TS[self.index].CP == 'interface':
                 self.index += 1
                 if self.TS[self.index].CP == 'ID':
@@ -574,11 +686,25 @@ class SA:
                                         self.index += 1
                                         if self.defs():
                                             return True
+                                        else:
+                                            return False
+                                    else:
+                                        return False
+                                else:
+                                    return False
+                            else:
+                                return False
+                        else:
+                            return False
                     else:
                         return False
+                else:
+                    return False
             elif self.enum_def():
                 if self.defs():
                     return True
+                else:
+                    return False
             return True
             # If any condition fails, return False
         return False
@@ -601,6 +727,24 @@ class SA:
                                                 self.index += 1
                                                 if self.defs():
                                                     return True
+                                                else:
+                                                    return False
+                                            else:
+                                                return False
+                                        else:
+                                            return False
+                                    else:
+                                        return False
+                                else:
+                                    return False
+                            else:
+                                return False
+                        else:
+                            return False
+                    else:
+                        return False
+                else:
+                    return False
             elif self.TS[self.index].CP == 'interface':
                 self.index += 1
                 if self.TS[self.index].CP == 'ID':
@@ -615,6 +759,22 @@ class SA:
                                         self.index += 1
                                         if self.defs():
                                             return True
+                                        else:
+                                            return False
+                                    else:
+                                        return False
+                                else:
+                                    return False
+                            else:
+                                return False
+                        else:
+                            return False
+                    else:
+                        return False
+                else:
+                    return False
+            else: 
+                return False
                 # If any condition fails, return False
         return False
     
@@ -635,6 +795,10 @@ class SA:
                     self.index += 1
                     if self.interface_rec():
                         return True
+                    else:
+                        return False
+                else:
+                    return False
                 # If any condition fails, return False
             return True
         return False
@@ -826,6 +990,8 @@ class SA:
                 self.index += 1
                 if self.OE():
                     return True
+                else:
+                    return False
             return True
         return False
 
@@ -836,6 +1002,10 @@ class SA:
                 if self.init_var():
                     if self.list_var():
                         return True
+                    else:
+                        return False
+                else:
+                    return False
             return True
         return False
     
@@ -845,6 +1015,8 @@ class SA:
                 self.index += 1
                 if self.init_arr_b():
                     return True
+                else:
+                    return False
             return True
             # If any condition fails, return False
         return False
@@ -863,6 +1035,18 @@ class SA:
                                 if self.init_arr():
                                     if self.list_arr():
                                         return True
+                                    else:
+                                        return False
+                                else:
+                                    return False
+                            else:
+                                return False
+                        else:
+                            return False
+                    else:
+                        return False
+                else:
+                    return False
             return True
         return False
 
@@ -872,6 +1056,8 @@ class SA:
                 self.index += 1
                 if self.init2():
                     return True
+                else:
+                    return False
             return True
             # If any condition fails, return False
         return False
@@ -884,6 +1070,11 @@ class SA:
                     self.index += 1
                     if self.list2():
                         return True
+                    else:
+                        return False
+                else:
+                    return False
+                
             return True
         return False
 
@@ -893,6 +1084,8 @@ class SA:
                 self.index += 1
                 if self.init_dict_b():
                     return True
+                else:
+                    return False
             return True
             # If any condition fails, return False
         return False
@@ -913,8 +1106,6 @@ class SA:
             if self.params():
                 return True
             return True
-        return False
-            # If any condition fails, return False
         return False
 
     def params_list_prime(self):
@@ -953,6 +1144,8 @@ class SA:
                 self.index += 1
                 if self.OE():
                     return True
+                else:
+                    return False
             return True
         return False
 
