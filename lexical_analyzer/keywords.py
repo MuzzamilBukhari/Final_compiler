@@ -42,5 +42,5 @@ keywords = {
     "awami": "AM",
     "hatmi": "final",
     "dict" : "dict",
-    "phenkdo" : "throw"
+    "phenkDo" : "throw"
 }

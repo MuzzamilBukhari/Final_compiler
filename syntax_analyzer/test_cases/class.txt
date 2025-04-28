@@ -1,2 +1,1 @@
-voidHai _main{}:() awami jamaat cat : ( awami stringHai = "Muzzamil" 
-)
+voidHai _main{}:() 

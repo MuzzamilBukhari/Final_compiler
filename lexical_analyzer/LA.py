@@ -342,8 +342,7 @@ def LA(file):
         # tokenSet.append({ 'VP': token.VP,'CP': token.CP, 'line_no':token.line_no})
         # tokenSet.append((token.VP, token.CP,token.line_no))
     
-    token = Token("$", "", line_no)
-    tokenSet.append(token)
+    
 
     # Filter consecutive newline tokens, keeping only one
     filtered_tokenSet = []
@@ -358,6 +357,12 @@ def LA(file):
                 i += 1
     
         i += 1
+
+    if filtered_tokenSet[len(filtered_tokenSet) -1].CP == 'ln':
+        filtered_tokenSet.pop()
+    
+    token = Token("$", "", line_no)
+    filtered_tokenSet.append(token)
     
     return filtered_tokenSet
 

@@ -4,15 +4,16 @@ class SA:
         self.TS = TS
         self.index = 0
         if (self.S()):
-            if (self.TS[self.index].CP == '$'):
+            print("S me agya")
+            print(self.TS[self.index].CP)
+            if (self.TS[self.index].CP in {'$'}):
                 print("Syntax is correct")
-            else:
-                print("Syntax is incorrect")
         else:
-            print("Syntax is incorrect")
+            print("Syntax error in line ", self.TS[self.index].line_no)
         
     
     def S(self):
+        print("Entering S")
         if self.TS[self.index].CP in {'import', 'from', 'void'}:
             if self.import_st():
                 if self.TS[self.index].CP == 'void':
@@ -27,24 +28,14 @@ class SA:
                                     self.index += 1
                                     if self.body1():
                                         if self.defs():
+                                            print("Exiting S: True")
                                             return True
-            elif self.TS[self.index].CP == 'void':
-                self.index += 1
-                if self.TS[self.index].CP == 'ID':
-                    self.index += 1
-                    if self.TS[self.index].CP == '{':
-                        self.index += 1
-                        if self.TS[self.index].CP == '}':
-                            self.index += 1
-                            if self.TS[self.index].CP == ':':
-                                self.index += 1
-                                if self.body():
-                                    if self.defs():
-                                        return True
-            # If any condition fails, return False
+            
+        print("Exiting S: False")
         return False
 
     def import_st(self):
+        print("Entering import_st")
         if (self.TS[self.index].CP in {'import', 'from', 'void'}):
             if self.TS[self.index].CP == 'import':
                 self.index += 1
@@ -56,6 +47,7 @@ class SA:
                             self.index += 1
                             if self.TS[self.index].CP == 'ln':
                                 self.index += 1
+                                print("Exiting import_st: True")
                                 return True
             elif self.TS[self.index].CP == 'from':
                 self.index += 1
@@ -67,76 +59,100 @@ class SA:
                             self.index += 1
                             if self.TS[self.index].CP == 'ln':
                                 self.index += 1
+                                print("Exiting import_st: True")
                                 return True
-            elif self.TS[self.index].CP == 'void':
-                return True
+            return True
+        print("Exiting import_st: False")
         return False
 
     def AE_prime(self):
-        if self.TS[self.index].CP in {'LO2', ')', ']', 'AM', 'static', 'final', 'DT', 'String', 'dict', 'ID', 'void', 'ln', 'LO3'}:
+        print(f"Entering AE_prime at index {self.index}, token: {self.TS[self.index].CP}")
+        if self.TS[self.index].CP in {'LO2', ')', ']', 'AM', 'static', 'final', 'DT', 'String', 'dict', 'ID', 'void', 'ln', 'LO3', '}', ','}:
             if self.TS[self.index].CP == 'LO2':
                 self.index += 1
                 if self.RE2():
                     if self.AE_prime():
+                        print("Exiting AE_prime: True")
                         return True
+            print("Exiting AE_prime: True (default path)")
             return True
+        print("Exiting AE_prime: False")
         return False
 
     def AE(self):
-        if self.TS[self.index].CP in {'str_const', 'num_const', 'char_const', 'bool_const', 'null_const', 'LO1', 'TS', 'ID'}:
+        print(f"Entering AE at index {self.index}, token: {self.TS[self.index].CP}")
+        if self.TS[self.index].CP in {'str_const', 'num_const', 'char_const', 'bool_const', 'null_const', 'LO1', 'TS', 'ID', '{'}:
             if self.RE2():
                 if self.AE_prime():
+                    print("Exiting AE: True")
                     return True
             # If any condition fails, return False
+        print("Exiting AE: False")
         return False
 
     def E_prime(self):
-        if self.TS[self.index].CP in {'PM', ')', ']', 'AM', 'static', 'final', 'DT', 'String', 'dict', 'ID', 'void', 'ln', 'LO3', 'LO2', 'RO1', 'RO2'}:
+        print(f"Entering E_prime at index {self.index}, token: {self.TS[self.index].CP}")
+        if self.TS[self.index].CP in {'PM', ')', ']', ',', '}', 'AM', 'static', 'final', 'DT', 'String', 'dict', 'ID', 'void', 'ln', 'LO3', 'LO2', 'RO1', 'RO2'}:
             if self.TS[self.index].CP == 'PM':
                 self.index += 1
                 if self.T():
                     if self.E_prime():
+                        print("Exiting E_prime: True")
                         return True
+            print("Exiting E_prime: True (default path)")
             return True
+        print("Exiting E_prime: False")
         return False
 
     def E(self):
-        if self.TS[self.index].CP in {'str_const', 'num_const', 'char_const', 'bool_const', 'null_const', 'LO1', 'TS', 'ID'}:
+        print(f"Entering E at index {self.index}, token: {self.TS[self.index].CP}")
+        if self.TS[self.index].CP in {'str_const', 'num_const', 'char_const', 'bool_const', 'null_const', 'LO1', 'TS', 'ID', '{'}:
             if self.T():
                 if self.E_prime():
+                    print("Exiting E: True")
                     return True
             # If any condition fails, return False
+        print("Exiting E: False")
         return False
 
     def F1(self):
-        if self.TS[self.index].CP in {')', ']', 'AM', 'static', 'final', 'DT', 'String', 'dict', 'ID', 'void', 'ln', 'LO3', 'LO2', 'RO1', 'RO2', 'PM', 'MDME', 'instanceof'}:
+        print(f"Entering F1 at index {self.index}, token: {self.TS[self.index].CP}")
+        if self.TS[self.index].CP in {')', ']', '}', ',', '{', 'AM', 'static', 'final', 'DT', 'String', 'dict', 'ID', 'void', 'ln', 'LO3', 'LO2', 'RO1', 'RO2', 'PM', 'MDME', 'instanceof'}:
             if self.TS[self.index].CP == '{':
                 self.index += 1
                 if self.args_list():
                     if self.TS[self.index].CP == '}':
                         self.index += 1
+                        print("Exiting F1: True ({ path)")
                         return True
             elif self.TS[self.index].CP == 'instanceof':
                 self.index += 1
                 if self.TS[self.index].CP == 'ID':
                     self.index += 1
+                    print("Exiting F1: True (instanceof path)")
                     return True
+            print("Exiting F1: True (default path)")
             return True
+        print("Exiting F1: False")
         return False
 
     def F(self):
-        if self.TS[self.index].CP in {'str_const', 'num_const', 'char_const', 'bool_const', 'null_const', 'LO1', 'TS', 'ID'}:
+        print(f"Entering F at index {self.index}, token: {self.TS[self.index].CP}")
+        if self.TS[self.index].CP in {'str_const', 'num_const', 'char_const', 'bool_const', 'null_const', 'LO1', 'TS', 'ID', '{'}:
             if self.const():
+                print("Exiting F: True (const path)")
                 return True
             elif self.TS[self.index].CP == '{':
                 self.index += 1
                 if self.OE():
                     if self.TS[self.index].CP == '}':
                         self.index += 1
+                        print("Exiting F: True (OE path)")
                         return True
             elif self.TS[self.index].CP == 'LO1':
                 self.index += 1
                 if self.F():
+                    print("Exiting F: True (LO1 path)")
                     return True
             elif self.TS[self.index].CP == 'TS':
                 self.index += 1
@@ -146,61 +162,78 @@ class SA:
                         self.index += 1
                         if self.option():
                             if self.F1():
+                                print("Exiting F: True (TS path)")
                                 return True
             elif self.TS[self.index].CP == 'ID':
                 self.index += 1
                 if self.option():
                     if self.F1():
+                        print("Exiting F: True (ID path)")
                         return True
-            # If any condition fails, return False
+        print("Exiting F: False")
         return False
 
     def MST(self):
+        print(f"Entering MST at index {self.index}, token: {self.TS[self.index].CP}")
         if self.TS[self.index].CP in {'DT', 'String', 'dict', 'TS', 'ID', 'if', 'while', 'try', 'throw', 'FlowControl', 'return', ')'}:
             if self.SST():
                 if self.MST():
+                    print("Exiting MST: True (recursive path)")
                     return True
+            print("Exiting MST: True (default path)")
             return True
+        print("Exiting MST: False")
+        return False
+
+    def RE1_prime(self):
+        print(f"Entering RE1_prime at index {self.index}, token: {self.TS[self.index].CP}")
+        if self.TS[self.index].CP in {'RO2', ')', ']', 'AM', 'static', 'final', 'DT', 'String', 'dict', 'ID', 'void', 'ln', 'LO3', 'LO2', 'RO1', '}', ','}:
+            if self.TS[self.index].CP == 'RO2':
+                self.index += 1
+                if self.E():
+                    if self.RE1_prime():
+                        print("Exiting RE1_prime: True (RO2 path)")
+                        return True
+            print("Exiting RE1_prime: True (default path)")
+            return True
+        print("Exiting RE1_prime: False")
+        return False
+
+    def RE1(self):
+        print(f"Entering RE1 at index {self.index}, token: {self.TS[self.index].CP}")
+        if self.TS[self.index].CP in {'str_const', 'num_const', 'char_const', 'bool_const', 'null_const', 'LO1', 'TS', 'ID', '{'}:
+            if self.E():
+                if self.RE1_prime():
+                    print("Exiting RE1: True")
+                    return True
+            # If any condition fails, return False
+        print("Exiting RE1: False")
         return False
 
     def OE_prime(self):
-        if self.TS[self.index].CP in {'LO2', ')', ']', 'AM', 'static', 'final', 'DT', 'String', 'dict', 'ID', 'void', 'ln'}:
+        print(f"Entering OE_prime at index {self.index}, token: {self.TS[self.index].CP}")
+        if self.TS[self.index].CP in {'LO2', ')', ']', 'AM', 'static', 'final', 'DT', 'String', 'dict', 'ID', 'void', 'ln', '}', ','}:
             if self.TS[self.index].CP == 'LO2':
                 self.index += 1
                 if self.AE():
                     if self.OE_prime():
+                        print("Exiting OE_prime: True (LO2 path)")
                         return True
+            print("Exiting OE_prime: True (default path)")
             return True
+        print("Exiting OE_prime: False")
         return False
 
     def OE(self):
-        if self.TS[self.index].CP in {'str_const', 'num_const', 'char_const', 'bool_const', 'null_const', 'LO1', 'TS', 'ID'}:
+        if self.TS[self.index].CP in {'str_const', 'num_const', 'char_const', 'bool_const', 'null_const', 'LO1', 'TS', 'ID', "{"}:
             if self.AE():
                 if self.OE_prime():
                     return True
             # If any condition fails, return False
         return False
 
-    def RE1_prime(self):
-        if self.TS[self.index].CP in {'RO2', ')', ']', 'AM', 'static', 'final', 'DT', 'String', 'dict', 'ID', 'void', 'ln', 'LO3', 'LO2', 'RO1'}:
-            if self.TS[self.index].CP == 'RO2':
-                self.index += 1
-                if self.E():
-                    if self.RE1_prime():
-                        return True
-            return True
-        return False
-
-    def RE1(self):
-        if self.TS[self.index].CP in {'str_const', 'num_const', 'char_const', 'bool_const', 'null_const', 'LO1', 'TS', 'ID'}:
-            if self.E():
-                if self.RE1_prime():
-                    return True
-            # If any condition fails, return False
-        return False
-
     def RE2_prime(self):
-        if self.TS[self.index].CP in {'RO1', ')', ']', 'AM', 'static', 'final', 'DT', 'String', 'dict', 'ID', 'void', 'ln', 'LO3', 'LO2'}:
+        if self.TS[self.index].CP in {'RO1', ')', ']', 'AM', 'static', 'final', 'DT', 'String', 'dict', 'ID', 'void', 'ln', 'LO3', 'LO2', '}', ','}:
             if self.TS[self.index].CP == 'RO1':
                 self.index += 1
                 if self.RE1():
@@ -210,7 +243,7 @@ class SA:
         return False
 
     def RE2(self):
-        if self.TS[self.index].CP in {'str_const', 'num_const', 'char_const', 'bool_const', 'null_const', 'LO1', 'TS', 'ID'}:
+        if self.TS[self.index].CP in {'str_const', 'num_const', 'char_const', 'bool_const', 'null_const', 'LO1', 'TS', 'ID', '{'}:
             if self.RE1():
                 if self.RE2_prime():
                     return True
@@ -257,7 +290,7 @@ class SA:
         return False
 
     def SST3(self):
-        if self.TS[self.index].CP in {'new', 'str_const', 'num_const', 'char_const', 'bool_const', 'null_const', 'LO1', 'TS', 'ID'}:
+        if self.TS[self.index].CP in {'new', 'str_const', 'num_const', 'char_const', 'bool_const', 'null_const', 'LO1', 'TS', 'ID', '{'}:
             if self.OE():
                 if self.TS[self.index].CP == 'ln':
                     self.index += 1
@@ -268,7 +301,7 @@ class SA:
                     self.index += 1
                     if self.TS[self.index].CP == '{':
                         self.index += 1
-                        if self.arguments():
+                        if self.args_list():
                             if self.TS[self.index].CP == '}':
                                 self.index += 1
                                 if self.TS[self.index].CP == 'ln':
@@ -335,31 +368,28 @@ class SA:
         return False
 
     def T_prime(self):
-        if self.TS[self.index].CP in {'MDME', ')', ']', 'AM', 'static', 'final', 'DT', 'String', 'dict', 'ID', 'void', 'ln', 'LO3', 'LO2', 'RO1', 'RO2', 'PM'}:
+        print(f"Entering T_prime at index {self.index}, token: {self.TS[self.index].CP}")
+        if self.TS[self.index].CP in {'MDME', ')', ']', 'AM', 'static', 'final', 'DT', 'String', 'dict', 'ID', 'void', 'ln', 'LO3', 'LO2', 'RO1', 'RO2', 'PM', '}', ','}:
             if self.TS[self.index].CP == 'MDME':
                 self.index += 1
                 if self.F():
                     if self.T_prime():
+                        print("Exiting T_prime: True (MDME path)")
                         return True
+            print("Exiting T_prime: True (default path)")
             return True
+        print("Exiting T_prime: False")
         return False
 
     def T(self):
-        if self.TS[self.index].CP in {'str_const', 'num_const', 'char_const', 'bool_const', 'null_const', 'LO1', 'TS', 'ID'}:
+        print(f"Entering T at index {self.index}, token: {self.TS[self.index].CP}")
+        if self.TS[self.index].CP in {'str_const', 'num_const', 'char_const', 'bool_const', 'null_const', 'LO1', 'TS', 'ID', '{'}:
             if self.F():
                 if self.T_prime():
+                    print("Exiting T: True")
                     return True
             # If any condition fails, return False
-        return False
-
-    def TS(self):
-        if self.TS[self.index].CP in {'TS', 'ID'}:
-            if self.TS[self.index].CP == 'TS':
-                self.index += 1
-                if self.TS[self.index].CP == '.':
-                    self.index += 1
-                    return True
-            return True
+        print("Exiting T: False")
         return False
 
     def amh3(self):
@@ -371,7 +401,7 @@ class SA:
         return False
 
     def args_list(self):
-        if self.TS[self.index].CP in {'str_const', 'num_const', 'char_const', 'bool_const', 'null_const', 'LO1', 'TS', 'ID'}:
+        if self.TS[self.index].CP in {'str_const', 'num_const', 'char_const', 'bool_const', 'null_const', 'LO1', 'TS', 'ID', '{', '}'}:
             if self.OE():
                 if self.list_args():
                     return True
@@ -400,7 +430,7 @@ class SA:
         return False
 
     def arr_size(self):
-        if self.TS[self.index].CP in {'[', '=', 'AM', 'static', 'final', 'string', 'DT', 'ID', 'dict', 'void', ')', 'TS', 'if', 'while', 'try', 'throw', 'flowControl', 'return'}:
+        if self.TS[self.index].CP in {'[', '=', 'AM', 'static', 'final', 'String', 'DT', 'ID', 'dict', 'void', ')', 'TS', 'if', 'while', 'try', 'throw', 'flowControl', 'return', ','}:
             if self.TS[self.index].CP == '[':
                 self.index += 1
                 if self.OE():
@@ -448,18 +478,13 @@ class SA:
         return False
 
     def const(self):
+        print(f"Entering const at index {self.index}, token: {self.TS[self.index].CP}")
         if self.TS[self.index].CP in {'str_const', 'num_const', 'char_const', 'bool_const', 'null_const'}:
             self.index += 1
+            print("Exiting const: True")
             return True
+        print("Exiting const: False")
         return False
-
-    def arguments(self):
-        if self.TS[self.index].CP in {'str_const', 'num_const', 'char_const', 'bool_const', 'null_const', 'LO1', 'TS', 'ID'}:
-            if self.args_list():
-                return True
-            return True
-        return False
-
 
     def extends_st(self):
         if self.TS[self.index].CP in {'extends', 'implements', ':'}:
@@ -494,7 +519,7 @@ class SA:
         return False
 
     def defs(self):
-        if self.TS[self.index].CP in {'DT', 'String', 'void', 'ID', 'dict', 'class', 'AM', 'final', 'interface', 'enum', '$'}:
+        if self.TS[self.index].CP in {'DT', 'String', 'void', 'ID', 'dict', 'class', 'AM', 'final', 'interface', 'enum', '$', 'ln'}:
             if self.func_def():
                 if self.defs():
                     return True
@@ -516,8 +541,7 @@ class SA:
             elif self.TS[self.index].CP == 'AM':
                 self.index += 1
                 if self.defs2():
-                    if self.defs():
-                        return True
+                    return True
             elif self.TS[self.index].CP == 'final':
                 self.index += 1
                 if self.TS[self.index].CP == 'class':
@@ -540,6 +564,7 @@ class SA:
                 if self.TS[self.index].CP == 'ID':
                     self.index += 1
                     if self.extends_st_interface():
+                        print("exint se andr agya")
                         if self.TS[self.index].CP == ':':
                             self.index += 1
                             if self.TS[self.index].CP == '(':
@@ -549,11 +574,12 @@ class SA:
                                         self.index += 1
                                         if self.defs():
                                             return True
+                    else:
+                        return False
             elif self.enum_def():
                 if self.defs():
                     return True
-            elif self.TS[self.index].CP == '$':
-                return True
+            return True
             # If any condition fails, return False
         return False
 
@@ -597,9 +623,7 @@ class SA:
             if self.TS[self.index].CP == 'final':
                 self.index += 1
                 return True
-            elif self.TS[self.index].CP == 'class':
-                self.index += 1
-                return True
+            return True
             # If any condition fails, return False
         return False
     
@@ -616,7 +640,7 @@ class SA:
         return False
 
     def interface_body(self):
-        if self.TS[self.index].CP in {'AM', 'DT', 'String', 'ID', 'dict', ')'}:
+        if self.TS[self.index].CP in {'AM', 'DT', 'String', 'ID', 'dict'}:
             if self.TS[self.index].CP == 'AM':
                 self.index += 1
                 if self.ifb2():
@@ -637,8 +661,6 @@ class SA:
                 self.index += 1
                 if self.ifb5():
                     return True
-            elif self.TS[self.index].CP == ')':
-                return True
                 # If any condition fails, return False
         return False
 
@@ -660,171 +682,218 @@ class SA:
         return False
 
     def ifb3(self):
-        if self.TS[self.index].CP in {'String', 'ID', 'dict'}:
-            if self.TS[self.index].CP == 'String':
+        if self.TS[self.index].CP in {'ID', '['}:
+            if self.TS[self.index].CP == 'ID':
                 self.index += 1
-                return True
-            elif self.TS[self.index].CP == 'ID':
+                if self.ifb3a():
+                    return True
+            elif self.TS[self.index].CP == '[':
                 self.index += 1
-                return True
-            elif self.TS[self.index].CP == 'dict':
-                self.index += 1
-                return True
+                if self.TS[self.index].CP == ']':
+                    self.index += 1
+                    if self.arr_mul():
+                        if self.TS[self.index].CP == 'ID':
+                            self.index += 1
+                            if self.TS[self.index] == '{':
+                                self.index += 1
+                                if self.params_list():
+                                    if self.TS[self.index].CP == '}':
+                                        self.index += 1
+                                        if self.TS[self.index].CP == 'ln':
+                                            self.index += 1
+                                            return True
             # If any condition fails, return False
         return False
 
     def ifb4(self):
-        if self.TS[self.index].CP in {'ID', 'dict'}:
+        if self.TS[self.index].CP in {'ID', '['}:
             if self.TS[self.index].CP == 'ID':
                 self.index += 1
-                return True
-            elif self.TS[self.index].CP == 'dict':
+                if self.ifb4a():
+                    return True
+            elif self.TS[self.index].CP == '[':
                 self.index += 1
-                return True
+                if self.TS[self.index].CP == ']':
+                    self.index += 1
+                    if self.arr_mul():
+                        if self.TS[self.index].CP == 'ID':
+                            self.index += 1
+                            if self.TS[self.index].CP == '{':
+                                self.index += 1
+                                if self.params_list():
+                                    if self.TS[self.index].CP == '}':
+                                        self.index += 1
+                                        if self.TS[self.index].CP == 'ln':
+                                            self.index += 1
+                                            return True
             # If any condition fails, return False
         return False
 
     def ifb5(self):
-        if self.TS[self.index].CP in {'ID'}:
+        if self.TS[self.index].CP in {'ID', '['}:
             if self.TS[self.index].CP == 'ID':
                 self.index += 1
-                return True
+                if self.ifb5a():
+                    return True
+            elif self.TS[self.index].CP == '[':
+                self.index += 1
+                if self.TS[self.index].CP == ']':
+                    self.index += 1
+                    if self.arr_mul():
+                        if self.TS[self.index].CP == 'ID':
+                            self.index += 1
+                            if self.TS[self.index].CP == '{':
+                                self.index += 1
+                                if self.params_list():
+                                    if self.TS[self.index].CP == '}':
+                                        self.index += 1
+                                        if self.TS[self.index].CP == 'ln':
+                                            self.index += 1
+                                            return True
             # If any condition fails, return False
         return False
 
     def cb2(self):
-        if self.TS[self.index].CP in {'static', 'final', 'DT', 'String', 'ID', 'dict', 'void'}:
-            if self.TS[self.index].CP == 'static':
+        if self.TS[self.index].CP in {'DT', 'String', 'ID', 'dict', 'void'}:
+            if self.TS[self.index].CP == 'DT':
                 self.index += 1
-                return True
-            elif self.TS[self.index].CP == 'final':
-                self.index += 1
-                return True
-            elif self.TS[self.index].CP == 'DT':
-                self.index += 1
-                return True
+                if self.cb2a():
+                    return True
             elif self.TS[self.index].CP == 'String':
                 self.index += 1
-                return True
+                if self.cb2a():
+                    return True
             elif self.TS[self.index].CP == 'ID':
                 self.index += 1
-                return True
+                if self.cb2c():
+                    return True
             elif self.TS[self.index].CP == 'dict':
                 self.index += 1
-                return True
+                if self.cb2b():
+                    return True
             elif self.TS[self.index].CP == 'void':
                 self.index += 1
-                return True
+                if self.TS[self.index].CP == 'ID':
+                    self.index += 1
+                    if self.TS[self.index].CP == '{':
+                        self.index += 1
+                        if self.params_list():
+                            if self.TS[self.index].CP == '}':
+                                self.index += 1
+                                if self.TS[self.index].CP == ':':
+                                    self.index += 1
+                                    if self.body():
+                                        if self.class_body():
+                                            return True
             # If any condition fails, return False
         return False
 
     def fnd2(self):
-        if self.TS[self.index].CP in {'ID', 'dict'}:
+        if self.TS[self.index].CP in {'ID', '['}:
             if self.TS[self.index].CP == 'ID':
                 self.index += 1
-                return True
-            elif self.TS[self.index].CP == 'dict':
+                if self.TS[self.index].CP == '{':
+                    self.index += 1
+                    if self.params_list():
+                        if self.TS[self.index].CP == '}':
+                            self.index += 1
+                            if self.TS[self.index].CP == ':':
+                                self.index += 1
+                                if self.body():
+                                    return True
+            elif self.TS[self.index].CP == '[':
                 self.index += 1
-                return True
+                if self.TS[self.index].CP == ']':
+                    self.index += 1
+                    if self.arr_mul():
+                        if self.TS[self.index].CP == 'ID':
+                            self.index += 1
+                            if self.TS[self.index].CP == '{':
+                                self.index += 1
+                                if self.params_list():
+                                    if self.TS[self.index].CP == '}':
+                                        self.index += 1
+                                        if self.TS[self.index].CP == ':':
+                                            self.index += 1
+                                            if self.body():
+                                                return True
             # If any condition fails, return False
         return False
 
     def init_var(self):
-        if self.TS[self.index].CP in {'DT', 'String', 'dict', 'ID', 'void'}:
-            if self.TS[self.index].CP == 'DT':
+        if self.TS[self.index].CP in {'=', ',' , 'AM' , 'String' , 'DT' , 'ID' , 'dict' , 'static' , 'final' , 'void' ,  ')' , 'TS' , 'if' , 'while' , 'try' , 'throw' , 'FlowControl' , 'return'}:
+            if self.TS[self.index].CP == '=':
                 self.index += 1
-                return True
-            elif self.TS[self.index].CP == 'String':
-                self.index += 1
-                return True
-            elif self.TS[self.index].CP == 'dict':
-                self.index += 1
-                return True
-            elif self.TS[self.index].CP == 'ID':
-                self.index += 1
-                return True
-            elif self.TS[self.index].CP == 'void':
-                self.index += 1
-                return True
-            # If any condition fails, return False
+                if self.OE():
+                    return True
+            return True
         return False
 
     def list_var(self):
-        if self.TS[self.index].CP in {',', ';'}:
+        if self.TS[self.index].CP in {',', 'AM', 'String', 'DT', 'ID', 'dict', 'static', 'final', 'void', ')', 'TS', 'if', 'while', 'try', 'throw', 'FlowControl', 'return'}:
             if self.TS[self.index].CP == ',':
                 self.index += 1
                 if self.init_var():
                     if self.list_var():
                         return True
-            elif self.TS[self.index].CP == ';':
-                return True
+            return True
         return False
     
     def init_arr(self):
-        if self.TS[self.index].CP in {'[', 'DT', 'String', 'dict', 'ID', 'void'}:
-            if self.TS[self.index].CP == '[':
+        if self.TS[self.index].CP in {'=', ',', 'AM', 'static', 'final', 'DT', 'String', 'dict', 'ID', 'void', '}', 'TS', 'if', 'while', 'try', 'throw', 'FlowControl', 'return'}:
+            if self.TS[self.index].CP == '=':
                 self.index += 1
-                if self.TS[self.index].CP == ']':
-                    self.index += 1
+                if self.init_arr_b():
                     return True
-            elif self.init_var():
-                if self.list_arr():
-                    return True
+            return True
             # If any condition fails, return False
         return False
 
     def list_arr(self):
-        if self.TS[self.index].CP in {',', ';'}:
+        if self.TS[self.index].CP in {',', 'AM', 'static', 'final', 'DT', 'String', 'dict', 'ID', 'void', ')', 'TS', 'if', 'while', 'try', 'throw', 'FlowControl', 'return'}:
             if self.TS[self.index].CP == ',':
                 self.index += 1
-                if self.init_arr():
-                    if self.list_arr():
-                        return True
-            elif self.TS[self.index].CP == ';':
-                return True
+                if self.TS[self.index].CP == 'ID':
+                    self.index += 1
+                    if self.TS[self.index].CP == '[':
+                        self.index += 1
+                        if self.OE():
+                            if self.TS[self.index].CP == ']':
+                                self.index += 1
+                                if self.init_arr():
+                                    if self.list_arr():
+                                        return True
+            return True
         return False
 
     def init(self):
-        if self.TS[self.index].CP in {'DT', 'String', 'dict', 'ID', 'void'}:
-            if self.TS[self.index].CP == 'DT':
+        if self.TS[self.index].CP in {'=', ',', 'AM', 'static', 'final', 'DT', 'String', 'dict', 'ID', 'void', ')', 'TS', 'if', 'while', 'try', 'throw', 'FlowControl', 'return'}:
+            if self.TS[self.index].CP == '=':
                 self.index += 1
-                return True
-            elif self.TS[self.index].CP == 'String':
-                self.index += 1
-                return True
-            elif self.TS[self.index].CP == 'dict':
-                self.index += 1
-                return True
-            elif self.TS[self.index].CP == 'ID':
-                self.index += 1
-                return True
-            elif self.TS[self.index].CP == 'void':
-                self.index += 1
-                return True
+                if self.init2():
+                    return True
+            return True
             # If any condition fails, return False
         return False
 
     def list(self):
-        if self.TS[self.index].CP in {',', ';'}:
+        if self.TS[self.index].CP in {'AM', 'static', 'final', 'DT', 'String', 'dict', 'ID', 'void', ')', 'TS', 'if', 'while', 'try', 'throw', 'FlowControl', 'return'}:
             if self.TS[self.index].CP == ',':
                 self.index += 1
-                if self.init():
-                    if self.list():
+                if self.TS[self.index].CP == 'ID':
+                    self.index += 1
+                    if self.list2():
                         return True
-            elif self.TS[self.index].CP == ';':
-                return True
+            return True
         return False
 
     def init_dict(self):
-        if self.TS[self.index].CP in {'{', 'ID', 'String', 'dict', 'void'}:
-            if self.TS[self.index].CP == '{':
+        if self.TS[self.index].CP in {'AM', 'static', 'final', 'DT', 'String', 'dict', 'ID', 'void', ')', 'TS', 'if', 'while', 'try', 'throw', 'FlowControl', 'return', '=', ','}:
+            if self.TS[self.index].CP == '=':
                 self.index += 1
-                if self.TS[self.index].CP == '}':
-                    self.index += 1
+                if self.init_dict_b():
                     return True
-            elif self.init_var():
-                if self.list_dict():
-                    return True
+            return True
             # If any condition fails, return False
         return False
 
@@ -840,37 +909,11 @@ class SA:
         return False
 
     def params_list(self):
-        if self.TS[self.index].CP in {'DT', 'String', 'dict', 'TS', 'ID'}:
-            if self.TS[self.index].CP == 'DT':
-                self.index += 1
-                if self.TS[self.index].CP == 'ID':
-                    self.index += 1
-                    if self.params_list_prime():
-                        return True
-            elif self.TS[self.index].CP == 'String':
-                self.index += 1
-                if self.TS[self.index].CP == 'ID':
-                    self.index += 1
-                    if self.params_list_prime():
-                        return True
-            elif self.TS[self.index].CP == 'dict':
-                self.index += 1
-                if self.TS[self.index].CP == 'ID':
-                    self.index += 1
-                    if self.params_list_prime():
-                        return True
-            elif self.TS[self.index].CP == 'TS':
-                self.index += 1
-                if self.TS[self.index].CP == '.':
-                    self.index += 1
-                    if self.TS[self.index].CP == 'ID':
-                        self.index += 1
-                        if self.params_list_prime():
-                            return True
-            elif self.TS[self.index].CP == 'ID':
-                self.index += 1
-                if self.params_list_prime():
-                    return True
+        if self.TS[self.index].CP in {'DT', 'String', 'dict', 'ID'}:
+            if self.params():
+                return True
+            return True
+        return False
             # If any condition fails, return False
         return False
 
@@ -903,6 +946,28 @@ class SA:
                                             return True
                 # If any condition fails, return False
         return False
+    
+    def init_enum_def(self):
+        if self.TS[self.index].CP in {'=', ',', ')'}:
+            if self.TS[self.index].CP == '=':
+                self.index += 1
+                if self.OE():
+                    return True
+            return True
+        return False
+
+    def enum_list(self):
+        if self.TS[self.index].CP in {'}', ','}:
+            if self.TS[self.index].CP == ',':
+                self.index += 1
+                if self.TS[self.index].CP == 'ID':
+                    self.index += 1
+                    if self.init_enum_def():
+                        if self.enum_list():
+                            return True
+            return True
+        return False
+    
 
     def class_body(self):
         if self.TS[self.index].CP in {'AM', 'static', 'final', 'DT', 'String', 'dict', 'ID', 'void', ')'}:
@@ -926,6 +991,51 @@ class SA:
                 # If any condition fails, return False
         return False
 
+    def cb3(self):
+        if self.TS[self.index].CP in {'static', 'final', 'DT', 'String', 'dict', 'ID', 'void'}:
+            if self.TS[self.index].CP == 'static':
+                self.index += 1
+                if self.amh3():
+                    if self.cb2():
+                        return True
+                    
+            elif self.TS[self.index].CP == 'final':
+                self.index += 1
+                if self.cb2():
+                    return True
+            elif self.TS[self.index].CP == 'DT':
+                self.index += 1
+                if self.cb2a():
+                    return True
+            elif self.TS[self.index].CP == 'String':
+                self.index += 1
+                if self.cb2a():
+                    return True
+            elif self.TS[self.index].CP == 'ID':
+                self.index += 1
+                if self.cb3a():
+                    return True
+            elif self.TS[self.index].CP == 'dict':
+                self.index += 1
+                if self.cb2b():
+                    return True
+            elif self.TS[self.index].CP == 'void':
+                self.index += 1
+                if self.TS[self.index].CP == 'ID':
+                    self.index += 1
+                    if self.TS[self.index].CP == '{':
+                        self.index += 1
+                        if self.params_list():
+                            if self.TS[self.index].CP == '}':
+                                self.index += 1
+                                if self.TS[self.index].CP == ':':
+                                    self.index += 1
+                                    if self.body():
+                                        if self.class_body():
+                                            return True
+            # If any condition fails, return False
+        return False
+            
     def func_def(self):
         if self.TS[self.index].CP in {'DT', 'String', 'void', 'ID', 'dict'}:
             if self.TS[self.index].CP == 'DT':
@@ -987,7 +1097,6 @@ class SA:
                     if self.dec3():
                         return True
                 # If any condition fails, return False
-            return False
         return False
 
     def while_st(self):
@@ -1019,6 +1128,8 @@ class SA:
                                 self.index += 1
                                 if self.TS[self.index].CP == 'ID':
                                     self.index += 1
+                                    if self.TS[self.index].CP == 'ID':
+                                        self.index += 1
                                     if self.TS[self.index].CP == '}':
                                         self.index += 1
                                         if self.TS[self.index].CP == ':':
@@ -1061,7 +1172,7 @@ class SA:
         return False
 
     def values(self):
-        if self.TS[self.index].CP in {'str_const', 'num_const', 'char_const', 'bool_const', 'null_const', 'LO1', 'TS', 'ID', '['}:
+        if self.TS[self.index].CP in {'str_const', 'num_const', 'char_const', 'bool_const', 'null_const', 'LO1', 'TS', 'ID', '[', '{'}:
             if self.OE():
                 if self.arr_val_values_prime():
                     return True
@@ -1118,7 +1229,6 @@ class SA:
                                                 if self.class_body():
                                                     return True
                 # If any condition fails, return False
-            return False
         return False
 
     def cb2b(self):
@@ -1145,11 +1255,10 @@ class SA:
                                                 if self.class_body():
                                                     return True
                 # If any condition fails, return False
-            return False
         return False
 
     def cb3a(self):
-        if self.TS[self.index].CP in {'ID', '['}:
+        if self.TS[self.index].CP in {'ID', '[', '{'}:
             if self.cb2c():
                 return True
             elif self.TS[self.index].CP == '{':
@@ -1167,7 +1276,6 @@ class SA:
                                         if self.class_body():
                                             return True
                 # If any condition fails, return False
-            return False
         return False
 
     def cb2c(self):
@@ -1194,7 +1302,6 @@ class SA:
                                                 if self.class_body():
                                                     return True
                 # If any condition fails, return False
-            return False
         return False
 
     def ifelse_st(self):
@@ -1244,9 +1351,8 @@ class SA:
             return True
         return False
     
-    
     def params(self):
-        if self.TS[self.index].CP in {'DT', 'ID', 'Strig', 'dict'}:
+        if self.TS[self.index].CP in {'DT', 'ID', 'String', 'dict'}:
             if self.TS[self.index].CP == 'DT':
                 self.index += 1
                 if self.params2():
@@ -1264,7 +1370,6 @@ class SA:
                 if self.params2():
                     return True
                 # If any condition fails, return False
-            return False
         return False
     
     def params2(self):
@@ -1283,7 +1388,6 @@ class SA:
                             if self.list():
                                 return True
                 # If any condition fails, return False
-            return False
         return False
     
     def list_param(self):
@@ -1292,14 +1396,12 @@ class SA:
                 self.index += 1
                 if self.params():
                     return True
-                # If any condition fails, return False
-            elif self.TS[self.index].CP == '}':
-                return True
+            return True
         return False
 
     
     def cb2a1(self):
-        if self.TS[self.index].CP in {'=', '[', 'AM', 'static', 'final', 'DT', 'String', 'dict', 'ID void'}:
+        if self.TS[self.index].CP in {'=', '[', 'AM', 'static', 'final', 'DT', 'String', 'dict', 'ID', 'void', '{', ','}:
             if self.dec1():
                 if self.TS[self.index].CP == 'ln':
                     self.index += 1
@@ -1316,11 +1418,10 @@ class SA:
                                 if self.class_body():
                                     return True
                 # If any condition fails, return False
-            return False
         return False
     
     def cb2b1(self):
-        if self.TS[self.index].CP in {'=', '[', 'AM', 'static', 'final', 'DT', 'String', 'dict', 'ID void'}:
+        if self.TS[self.index].CP in {'=', '[', 'AM', 'static', 'final', 'DT', 'String', 'dict', 'ID', 'void', '{', ','}:
             if self.dec3():
                 if self.TS[self.index].CP == 'ln':
                     self.index += 1
@@ -1337,11 +1438,10 @@ class SA:
                                 if self.class_body():
                                     return True
                 # If any condition fails, return False
-            return False
         return False
     
     def cb2c1(self):
-        if self.TS[self.index].CP in {'=', '[', 'AM', 'static', 'final', 'DT', 'String', 'dict', 'ID void'}:
+        if self.TS[self.index].CP in {'=', '[', 'AM', 'static', 'final', 'DT', 'String', 'dict', 'ID', 'void', '{', ','}:
             if self.dec2():
                 if self.TS[self.index].CP == 'ln':
                     self.index += 1
@@ -1358,7 +1458,6 @@ class SA:
                                 if self.class_body():
                                     return True
                 # If any condition fails, return False
-            return False
         return False
 
     
@@ -1371,11 +1470,21 @@ class SA:
             elif self.value_list():
                 return True
                 # If any condition fails, return False
-            return False
+        return False
+    
+    def value_list(self):
+        if self.TS[self.index].CP in {'['}:
+            if self.TS[self.index].CP == '[':
+                self.index += 1
+                if self.values():
+                    if self.TS[self.index].CP == ']':
+                        self.index += 1
+                        return True
+                # If any condition fails, return False
         return False
     
     def init2(self):
-        if self.TS[self.index].CP in {'new', 'str_const', 'num_const', 'char_const', 'bool_const', 'null_const', 'LO1', 'TS', 'ID'}:
+        if self.TS[self.index].CP in {'new', 'str_const', 'num_const', 'char_const', 'bool_const', 'null_const', 'LO1', 'TS', 'ID', '{'}:
             if self.TS[self.index].CP == 'new':
                 self.index += 1
                 if self.TS[self.index].CP == 'ID':
@@ -1390,30 +1499,33 @@ class SA:
             elif self.OE():
                 return True
                 # If any condition fails, return False
-            return False
         return False
     
     def list2(self):
-        if self.TS[self.index].CP in {'=', 'AM', 'String', 'DT', 'ID', 'dict', 'static', 'final', 'void', ')', 'TS', 'if', 'while', 'try', 'throw', 'FlowControl', 'return'}:
+        if self.TS[self.index].CP in {'=', ',', 'AM', 'String', 'DT', 'ID', 'dict', 'static', 'final', 'void', ')', 'TS', 'if', 'while', 'try', 'throw', 'FlowControl', 'return'}:
             if self.init():
                 if self.list():
                     return True
                 # If any condition fails, return False
-            return False
         return False
     
     def init_dict_b(self):
-        if self.TS[self.index].CP in {'ID'}:
+        if self.TS[self.index].CP in {'ID', '{'}:
             if self.TS[self.index].CP == 'ID':
                 self.index += 1
                 if self.init_dict():
                     return True
                 # If any condition fails, return False
-            return False
+            elif self.TS[self.index].CP == '{':
+                self.index += 1
+                if self.values_of_dic():
+                    if self.TS[self.index].CP == '}':
+                        self.index += 1
+                        return True
         return False
     
     def values_of_dic(self):
-        if self.TS[self.index].CP in {'ID'}:
+        if self.TS[self.index].CP in {'ID', '}'}:
             if self.TS[self.index].CP == 'ID':
                 self.index += 1
                 if self.TS[self.index].CP == ':':
@@ -1422,11 +1534,11 @@ class SA:
                         if self.dict_val():
                             return True
                 # If any condition fails, return False
-            return False
+            return True
         return False
     
     def dict_val(self):
-        if self.TS[self.index].CP in {}:
+        if self.TS[self.index].CP in {',', '}'}:
             if self.TS[self.index].CP == ',':
                 self.index += 1
                 if self.TS[self.index].CP == 'ID':
@@ -1503,7 +1615,7 @@ class SA:
         return False
     
     def constr_body2(self):
-        if self.TS[self.index].CP in {'.'}:
+        if self.TS[self.index].CP in {'.', '{'}:
             if self.TS[self.index].CP == '.':
                 self.index += 1
                 if self.TS[self.index].CP == 'ID':
@@ -1522,7 +1634,6 @@ class SA:
                             if self.MST():
                                 return True
                 # If any condition fails, return False
-            return False
         return False
     
     def ifb3a(self):
@@ -1546,7 +1657,7 @@ class SA:
         return False
     
     def ifb4a(self):
-        if self.TS[self.index].CP in {'=', '['}:
+        if self.TS[self.index].CP in {'=', '[', '{', ','}:
             if self.dec2():
                 if self.TS[self.index].CP == 'ln':
                     self.index += 1
@@ -1562,11 +1673,10 @@ class SA:
                             if self.interface_body():
                                 return True
                 # If any condition fails, return False
-            return False
         return False
     
     def ifb5a(self):
-        if self.TS[self.index].CP in {'=', ',', '[', '{'}:
+        if self.TS[self.index].CP in {'=', '[', ',', '{'}:
             if self.dec3():
                 if self.TS[self.index].CP == 'ln':
                     self.index += 1
@@ -1582,7 +1692,6 @@ class SA:
                             if self.interface_body():
                                 return True
                 # If any condition fails, return False
-            return False
         return False
     
     def fn_def_inter2(self):
@@ -1613,16 +1722,17 @@ class SA:
                                             self.index += 1
                                             return True
                 # If any condition fails, return False
-            return False
         return False
-
+    
     def option(self):
-        if self.TS[self.index].CP in {')', ']', 'AM', 'static', 'final', 'DT', 'String', 'dict', 'ID', 'void', 'ln', 'LO3', 'LO2', 'RO1', 'RO2', 'PM', 'MDME', '=', 'COMPASS', 'instanceof', '.', '[', '('}:
+        print(f"Entering option at index {self.index}, token: {self.TS[self.index].CP}")
+        if self.TS[self.index].CP in {'.', '[', '(', '{' '=', 'COMPASS', 'instanceof', 'ln', ')', ']', '}', 'AM', 'static', 'final', 'DT', 'String', 'dict', 'ID', 'void', 'LO3', 'LO2', 'RO1', 'RO2', 'PM', 'MDME', ','}:
             if self.TS[self.index].CP == '.':
                 self.index += 1
                 if self.TS[self.index].CP == 'ID':
                     self.index += 1
                     if self.option():
+                        print("Exiting option: True (. path)")
                         return True
             elif self.TS[self.index].CP == '[':
                 self.index += 1
@@ -1630,13 +1740,17 @@ class SA:
                     if self.TS[self.index].CP == ']':
                         self.index += 1
                         if self.option():
+                            print("Exiting option: True ([ path)")
                             return True
             elif self.TS[self.index].CP == '(':
                 self.index += 1
-                if self.TS[self.index].CP == 'ID)':
+                if self.TS[self.index].CP == 'ID':
                     self.index += 1
-                    if self.option():
-                        return True
+                    if self.TS[self.index].CP == ')':
+                        self.index += 1
+                        if self.option():
+                            print("Exiting option: True (( path)")
+                            return True
             elif self.TS[self.index].CP == '{':
                 self.index += 1
                 if self.args_list():
@@ -1644,8 +1758,8 @@ class SA:
                         self.index += 1
                         if self.option2():
                             return True
-                # If any condition fails, return False
             return True
+        print("Exiting option: False")
         return False
 
     def option2(self):
@@ -1659,14 +1773,13 @@ class SA:
             elif self.TS[self.index].CP == 'ln':
                 self.index += 1
                 return True
-                # If any condition fails, return False
-            return False
         return False
-
+    
     def dec1(self):
-        if self.TS[self.index].CP in {'=', '['}:
+        if self.TS[self.index].CP in {'=', ',', '[', 'AM', 'String', 'DT', 'ID', 'dict', 'static', 'final', 'void', ')', 'TS', 'if', 'while', 'try', 'throw', 'FlowControl', 'return', 'ln'}:
             if self.init_var():
                 if self.list_var():
+                    print("list var")
                     return True
             elif self.TS[self.index].CP == '[':
                 self.index += 1
@@ -1678,11 +1791,10 @@ class SA:
                                 if self.list_arr():
                                     return True
                 # If any condition fails, return False
-            return False
         return False
     
     def dec2(self):
-        if self.TS[self.index].CP in {'='}:
+        if self.TS[self.index].CP in {'=', ',', '[', 'AM', 'String', 'DT', 'ID', 'dict', 'static', 'final', 'void', ')', 'TS', 'if', 'while', 'try', 'throw', 'FlowControl', 'return', 'ln'}:
             if self.init():
                 if self.list():
                     return True
@@ -1696,11 +1808,10 @@ class SA:
                                 if self.list_arr():
                                     return True
                 # If any condition fails, return False
-            return False
         return False
     
     def dec3(self):
-        if self.TS[self.index].CP in {'=', '['}:
+        if self.TS[self.index].CP in {'=', ',', '[', 'AM', 'String', 'DT', 'ID', 'dict', 'static', 'final', 'void', ')', 'TS', 'if', 'while', 'try', 'throw', 'FlowControl', 'return', 'ln'}:
             if self.init_dict():
                 if self.list_dict():
                     return True
@@ -1714,19 +1825,5 @@ class SA:
                                 if self.list_arr():
                                     return True
                 # If any condition fails, return False
-            return False
         return False
     
-    # isko dekhna h abi
-    def value_list(self):
-        if self.TS[self.index].CP in {'['}:
-            if self.TS[self.index].CP == '[':
-                self.index += 1
-            if self.values():
-                if self.TS[self.index].CP == ']':
-                    self.index += 1
-                    return True
-        return False
-    
-    
-
