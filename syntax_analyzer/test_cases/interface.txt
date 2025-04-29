@@ -1,6 +1,6 @@
 voidHai _main{}:() ehamHissa _TestCase : ( zaati numberHai add{numberHai _param}
 
-zaati numberHai xyz = 100
+numberHai xyz = 100
 
 )
 
