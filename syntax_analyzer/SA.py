@@ -128,7 +128,7 @@ class SA:
                         self.index += 1
                         return True
         elif self.index < len(self.TS) and self.TS[self.index].CP in {'LO1'}:
-            if self.TS[self.index].CP == 'L01':
+            if self.TS[self.index].CP == 'LO1':
                 self.index += 1
                 if self.F():
                     return True
@@ -1730,7 +1730,7 @@ class SA:
         return False
 
     def SST_prime(self):
-        if self.index < len(self.TS) and self.TS[self.index].CP in {'.', '[', '(', '{', '=', 'COMPASS', 'instanceof', 'DT', 'String', 'dict', 'ID', }:
+        if self.index < len(self.TS) and self.TS[self.index].CP in { '.','[', '{', '(', 'ln' }:
             if self.option():
                 if self.SST2():
                     return True
