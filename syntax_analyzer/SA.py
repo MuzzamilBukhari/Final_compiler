@@ -10,7 +10,7 @@ class SA:
                 print("Syntax is correct")
                 return
             else:
-                print("Invalid  abcSyntax at line no : ", self.TS[self.index].line_no)
+                print("In S, Invalid Syntax at line no : ", self.TS[self.index].line_no)
         else:
             print("Invalid Syntax at line no : ", self.TS[self.index].line_no)
 
@@ -201,7 +201,9 @@ class SA:
                                 if self.TS[self.index].CP == ':':
                                     self.index += 1
                                     if self.body1():
+                                        print("body1 se agya")
                                         if self.defs():
+                                            print("defs se agya")
                                             return True
         return False
 
@@ -305,9 +307,11 @@ class SA:
                             if self.TS[self.index].CP == '(':
                                 self.index += 1
                                 if self.interface_body():
+                                    print("interface body se agya")
                                     if self.TS[self.index].CP == ')':
                                         self.index += 1
                                         if self.defs():
+                                            print("defs se agya")
                                             return True
         elif self.index < len(self.TS) and self.TS[self.index].CP in {'enum'}:
             if self.enum_def():

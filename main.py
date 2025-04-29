@@ -11,6 +11,7 @@ if __name__ == '__main__':
     file = open('syntax_analyzer/test_cases/interface.txt', 'rt')
     # src = file.readlines()
     src = file.read()
+    src.strip()
     file.close()
     tokenSet = LA(src)
     

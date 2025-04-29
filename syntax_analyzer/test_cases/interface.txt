@@ -1,9 +1,2 @@
-voidHai _main{}:() ehamHissa _TestCase : ( zaati numberHai add{numberHai _param}
-
-zaati numberHai xyz
-
+voidHai _main{}:() ehamHissa _abcd : ( awami charHai a01 = 'f'
 )
-
-
-
-
