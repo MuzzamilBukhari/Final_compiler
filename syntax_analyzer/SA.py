@@ -306,6 +306,7 @@ class SA:
                             self.index += 1
                             if self.TS[self.index].CP == '(':
                                 self.index += 1
+                                print("interface body me jaega")
                                 if self.interface_body():
                                     print("interface body se agya")
                                     if self.TS[self.index].CP == ')':
@@ -484,7 +485,7 @@ class SA:
                 print("hahahha")
                 self.index += 1
                 if self.ifb2():
-                    print("fb2 se agae")
+                    print("ifb2 se agae")
                     return True
         elif self.index < len(self.TS) and self.TS[self.index].CP in {'DT'}:
             if self.TS[self.index].CP == 'DT':
@@ -1577,9 +1578,11 @@ class SA:
         return False
 
     def fn_def_inter2 (self):
+        print("fn_def_inter2")
         if self.index < len(self.TS) and self.TS[self.index].CP in {'ID'}:
             if self.TS[self.index].CP == 'ID':
                 self.index += 1
+                print("ID match")
                 if self.TS[self.index].CP == '{':
                     self.index += 1
                     print("curly match")
@@ -1589,22 +1592,22 @@ class SA:
                             if self.TS[self.index].CP == 'ln':
                                 self.index += 1
                                 return True
-            elif self.index < len(self.TS) and self.TS[self.index].CP in {'['}:
-                if self.TS[self.index].CP == '[':
+        elif self.index < len(self.TS) and self.TS[self.index].CP in {'['}:
+            if self.TS[self.index].CP == '[':
+                self.index += 1
+                if self.TS[self.index].CP == ']':
                     self.index += 1
-                    if self.TS[self.index].CP == ']':
-                        self.index += 1
-                        if self.arr_mul():
-                            if self.TS[self.index].CP == 'ID':
+                    if self.arr_mul():
+                        if self.TS[self.index].CP == 'ID':
+                            self.index += 1
+                            if self.TS[self.index].CP == '{':
                                 self.index += 1
-                                if self.TS[self.index].CP == '{':
-                                    self.index += 1
-                                    if self.params_list():
-                                        if self.TS[self.index].CP == '}':
+                                if self.params_list():
+                                    if self.TS[self.index].CP == '}':
+                                        self.index += 1
+                                        if self.TS[self.index].CP == 'ln':
                                             self.index += 1
-                                            if self.TS[self.index].CP == 'ln':
-                                                self.index += 1
-                                                return True
+                                            return True
             return False
 
 
