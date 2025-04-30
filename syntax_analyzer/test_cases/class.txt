@@ -1,1 +1,7 @@
-voidHai _main{}:() 
+voidHai _main{}:() numberHai _func{numberHai z01}: ( wapisDo z02) voidHai _func1{numberHai z03}: (  ) ehamHissa _TestCase : ( numberHai add {numberHai x01, numberHai y01}
+zaati stringHai _method{stringHai _param}
+numberHai xyz =100
+) awami jamaat _Test : ( numberHai a01 = 5
+stringHai b01= "testing"
+voidHai fn1{numberHai a02} : ( _dikhaao{a01}
+) awami _Test{}: () ) awami jamaat _Test2 hai _Test : () awami hatmi jamaat _Test3 hai _Test nafizkro _TestCase: () enumHai _sample: ( abc = 5,cba,_abcd="best")

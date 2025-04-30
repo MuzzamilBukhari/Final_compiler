@@ -1,0 +1,18 @@
+leAao ID1 yahaSe ID2
+voidHai _main{} : ( choteSahab._Upper.abc._d[2]._e =90 
+stringHai _name2 = "sohaib"
+stringHai _name
+_name = "sohaib"
+numberHai num = 55 
+dict _myDict = { _west: "west-hai" , _number : 55 } 
+ID1 hissaHai ID2
+_Test obj = naya _Test{}
+agar {a01 > b01 }: ( wapisDo  sachHai ) warnaAgar{b01 > c01}: ( wapisDo jhootHai) warna ( _dikhaao{"ab bs hai"}
+) riskLo: ( jabTak { i01 < 100 }: ( basRukjao
+) ) errorPakro { ID1 ID2 }: ( _dikhaao {"error hai bhai"}
+) yetoHoga: ( i01+=1
+ ) phenkDo naya ID7{2*8*9/0+60*23} 
+) jamaat _Test : ( numberHai a01 = 5
+stringHai b01= "testing"
+voidHai fn1{numberHai a02} : ( _dikhaao{a01}
+) awami _Test{}: () )

@@ -269,6 +269,18 @@ def word_break(file: str, index: int, line_no: int):
 def validate_word(word : str): 
     # print(word)
 
+    cp = match_keywords(word)
+    if cp:
+        return cp
+
+    cp = match_operators(word)
+    if cp:
+        return cp
+
+    cp = match_puncutators(word)
+    if cp:
+        return cp
+
     if (word[0] == '_'):
         cp = pm.match_ID(word)
         if cp:
@@ -297,18 +309,8 @@ def validate_word(word : str):
     if cp:
         return cp
 
-    cp = match_keywords(word)
-    if cp:
-        return cp
-
-    cp = match_operators(word)
-    if cp:
-        return cp
-
-    cp = match_puncutators(word)
-    if cp:
-        return cp
-
+    
+    
     cp = pm.match_string_const(word)
     if cp:
         return cp

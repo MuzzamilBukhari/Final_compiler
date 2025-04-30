@@ -12,7 +12,9 @@ class SA:
             else:
                 print("In S, Invalid Syntax at line no : ", self.TS[self.index].line_no)
         else:
-            print("Invalid Syntax at line no : ", self.TS[self.index].line_no)
+            print("Invalid Syntax at line no : ", self.TS[self.index].line_no, "Value part", self.TS[self.index-2].VP)
+            print("Invalid Syntax at line no : ", self.TS[self.index].line_no, "Value part", self.TS[self.index-1].VP)
+            print("Invalid Syntax at line no : ", self.TS[self.index].line_no, "Value part", self.TS[self.index].VP)
 
     def OE(self):
         if self.AE():
@@ -242,6 +244,7 @@ class SA:
             if self.TS[self.index].CP == '(':
                 self.index += 1
                 if self.MST():
+                    print("MST se agya")
                     if self.return_st():
                         if self.TS[self.index].CP == ')':
                             self.index += 1
@@ -258,17 +261,22 @@ class SA:
                 if self.defs():
                     return True
         elif self.index < len(self.TS) and self.TS[self.index].CP in {'class'}:
+            print("class m agya")
             if self.TS[self.index].CP == 'class':
                 self.index += 1
                 if self.TS[self.index].CP == 'ID':
                     self.index += 1
                     if self.extends_st():
+                        print("Extends se agya")
                         if self.implements_st():
+                            print("implements se agya")
                             if self.TS[self.index].CP == ':':
                                 self.index += 1
                                 if self.TS[self.index].CP == '(':
+                                    print("( se agya")
                                     self.index += 1
                                     if self.class_body():
+                                        print("class body se agya")
                                         if self.TS[self.index].CP == ')':
                                             self.index += 1
                                             if self.defs():
@@ -297,11 +305,14 @@ class SA:
                                                 if self.defs():
                                                     return True
         elif self.index < len(self.TS) and self.TS[self.index].CP in {'interface'}:
+            print("interface m agya")
             if self.TS[self.index].CP == 'interface':
                 self.index += 1
                 if self.TS[self.index].CP == 'ID':
                     self.index += 1
+                    print("ID se agya")
                     if self.extends_st_interface():
+                        print("extends se agya")
                         if self.TS[self.index].CP == ':':
                             self.index += 1
                             if self.TS[self.index].CP == '(':
@@ -324,8 +335,12 @@ class SA:
         return False
 
     def MST(self):
+        print("MST me agya")
+        print(self.TS[self.index].CP)
         if self.index < len(self.TS) and self.TS[self.index].CP in {'DT', 'String', 'dict', 'TS', 'ID', 'if', 'while', 'try', 'throw', 'flowControl'}:
+            print("MST ID se agya")
             if self.SST():
+                print("SST se agya")
                 if self.MST():
                     return True
         elif self.index < len(self.TS) and self.TS[self.index].CP in {'return', ')'}:
@@ -382,6 +397,8 @@ class SA:
         return False
 
     def extends_st(self):
+        print("extends_st me agya")
+        print(self.TS[self.index].CP)
         if self.index < len(self.TS) and self.TS[self.index].CP in {'extends'}:
             if self.TS[self.index].CP == 'extends':
                 self.index += 1
@@ -424,7 +441,9 @@ class SA:
                 if self.cb2():
                     return True
         elif self.index < len(self.TS) and self.TS[self.index].CP in {'DT', 'String', 'dict', 'ID', 'void'}:
+            print("cb2 me jaega")
             if self.cb2():
+                print("cb2 sea gya")
                 return True
         elif self.index < len(self.TS) and self.TS[self.index].CP in {')'}:
             # Epsilon production
@@ -438,7 +457,9 @@ class SA:
                     self.index += 1
                     if self.TS[self.index].CP == 'ID':
                         self.index += 1
+                        print(self.TS[self.index].CP)
                         if self.extends_st():
+                            print("extends se agya")
                             if self.implements_st():
                                 if self.TS[self.index].CP == ':':
                                     self.index += 1
@@ -489,8 +510,10 @@ class SA:
                     return True
         elif self.index < len(self.TS) and self.TS[self.index].CP in {'DT'}:
             if self.TS[self.index].CP == 'DT':
+                print("DT se agya")
                 self.index += 1
                 if self.ifb3():
+                    print("ifb3 se agae")
                     return True
         elif self.index < len(self.TS) and self.TS[self.index].CP in {'String'}:
             if self.TS[self.index].CP == 'String':
@@ -507,6 +530,10 @@ class SA:
                 self.index += 1
                 if self.ifb5():
                     return True
+        elif self.index < len(self.TS) and self.TS[self.index].CP in {')'}:
+            if self.TS[self.index].CP == ')':
+                return True
+            
         return False
 
     def enum_def(self):
@@ -529,6 +556,7 @@ class SA:
         return False
 
     def SST(self):
+        print("SST me agya")
         if self.index < len(self.TS) and self.TS[self.index].CP in {'DT'}:
             if self.TS[self.index].CP == 'DT':
                 self.index += 1
@@ -544,6 +572,7 @@ class SA:
                 if self.TS[self.index].CP == 'ID':
                     self.index += 1
                     if self.dec1():
+                        print("dec1 se agae")
                         if self.TS[self.index].CP == 'ln':
                             self.index += 1
                             return True
@@ -553,6 +582,7 @@ class SA:
                 if self.TS[self.index].CP == 'ID':
                     self.index += 1
                     if self.dec3():
+                        print(self.TS[self.index].CP)
                         if self.TS[self.index].CP == 'ln':
                             self.index += 1
                             return True
@@ -569,15 +599,18 @@ class SA:
         elif self.index < len(self.TS) and self.TS[self.index].CP in {'ID'}:
             if self.TS[self.index].CP == 'ID':
                 self.index += 1
+                print("SST ID se agya")
                 if self.SST_prime():
+                    print("SST prime se agya")
                     return True
         elif self.index < len(self.TS) and self.TS[self.index].CP in {'if'}:
             if self.ifelse_st():
+                print("if else se agya")
                 return True
         elif self.index < len(self.TS) and self.TS[self.index].CP in {'while'}:
             if self.while_st():
                 return True
-        elif self.index < len(self.TS) and self.TS[self.index].CP in {'flowcontrol'}:
+        elif self.index < len(self.TS) and self.TS[self.index].CP in {'flowControl'}:
             if self.TS[self.index].CP == 'flowControl':
                 self.index += 1
                 if self.TS[self.index].CP == 'ln':
@@ -627,6 +660,7 @@ class SA:
 
     def params_list(self):
         if self.index < len(self.TS) and self.TS[self.index].CP in {'DT', 'ID', 'String', 'dict'}:
+            print("Idhr")
             if self.params():
                 return True
         elif self.index < len(self.TS) and self.TS[self.index].CP in {'}'}:
@@ -643,6 +677,7 @@ class SA:
         elif self.index < len(self.TS) and self.TS[self.index].CP in {'ID'}:
             if self.TS[self.index].CP == 'ID':
                 self.index += 1
+                print("param ki ID se agya")
                 if self.params2():
                     return True
         elif self.index < len(self.TS) and self.TS[self.index].CP in {'String'}:
@@ -771,6 +806,8 @@ class SA:
         return False
 
     def cb2(self):
+        print("cb2 me agya")
+        print(self.TS[self.index].CP)
         if self.index < len(self.TS) and self.TS[self.index].CP in {'DT'}:
             if self.TS[self.index].CP == 'DT':
                 self.index += 1
@@ -779,12 +816,17 @@ class SA:
         elif self.index < len(self.TS) and self.TS[self.index].CP in {'ID'}:
             if self.TS[self.index].CP == 'ID':
                 self.index += 1
+                print("cb2c me jaega")
                 if self.cb2c():
+                    print("cb2c se agya")
                     return True
         elif self.index < len(self.TS) and self.TS[self.index].CP in {'String'}:
+            print("string match krega ")
             if self.TS[self.index].CP == 'String':
                 self.index += 1
+                print("cb2a me jaega")
                 if self.cb2a():
+                    print("cb2a se agya")
                     return True
         elif self.index < len(self.TS) and self.TS[self.index].CP in {'void'}:
             if self.TS[self.index].CP == 'void':
@@ -794,11 +836,13 @@ class SA:
                     if self.TS[self.index].CP == '{':
                         self.index += 1
                         if self.params_list():
+                            print("param se agya")
                             if self.TS[self.index].CP == '}':
                                 self.index += 1
                                 if self.TS[self.index].CP == ':':
                                     self.index += 1
                                     if self.body():
+                                        print("body se agya")
                                         if self.class_body():
                                             return True
         elif self.index < len(self.TS) and self.TS[self.index].CP in {'dict'}:
@@ -822,7 +866,9 @@ class SA:
         if self.index < len(self.TS) and self.TS[self.index].CP in {'ID'}:
             if self.TS[self.index].CP == 'ID':
                 self.index += 1
+                print("cb2a1 me jaega")
                 if self.cb2a1():
+                    print("cb2a1 se agya")
                     return True
         elif self.index < len(self.TS) and self.TS[self.index].CP in {'['}:
             if self.TS[self.index].CP == '[':
@@ -918,8 +964,9 @@ class SA:
         return False
 
     def cb2a1(self):
-        if self.index < len(self.TS) and self.TS[self.index].CP in {'=', '[', 'AM', 'static', 'final', 'DT', 'String', 'dict', 'ID', 'void', ','}:
+        if self.index < len(self.TS) and self.TS[self.index].CP in {'=', '[', ',', 'ln'}:
             if self.dec1():
+                print("dec1 se wapis")
                 if self.TS[self.index].CP == 'ln':
                     self.index += 1
                     if self.class_body():
@@ -938,7 +985,7 @@ class SA:
         return False
 
     def cb2b1(self):
-        if self.index < len(self.TS) and self.TS[self.index].CP in {'=', '[', ',', 'AM', 'static', 'final', 'DT', 'String', 'dict', 'ID', 'void'}:
+        if self.index < len(self.TS) and self.TS[self.index].CP in {'=', '[', ',', 'ln'}:
             if self.dec3():
                 if self.TS[self.index].CP == 'ln':
                     self.index += 1
@@ -958,7 +1005,7 @@ class SA:
         return False
 
     def cb2c1(self):
-        if self.index < len(self.TS) and self.TS[self.index].CP in {'=', '[', ',', 'AM', 'static', 'final', 'DT', 'String', 'dict', 'ID', 'void'}:
+        if self.index < len(self.TS) and self.TS[self.index].CP in {'=', '[', ',', 'ln'}:
             if self.dec2():
                 if self.TS[self.index].CP == 'ln':
                     self.index += 1
@@ -978,9 +1025,11 @@ class SA:
         return False
 
     def dec1(self):
-        if self.index < len(self.TS) and self.TS[self.index].CP in {'=', ','}:
+        if self.index < len(self.TS) and self.TS[self.index].CP in {'=', ',' , 'AM' , 'String' , 'DT' , 'ID' , 'dict' , 'static' , 'final' , 'void' ,  ')' , 'TS' , 'if' , 'while' , 'try' , 'throw' , 'flowControl' , 'return' , 'ln'}:
             if self.init_var():
+                print("init_var se agya")
                 if self.list_var():
+                    print("list_var se agya")
                     return True
         elif self.index < len(self.TS) and self.TS[self.index].CP in {'['}:
             if self.TS[self.index].CP == '[':
@@ -995,7 +1044,7 @@ class SA:
         return False
 
     def dec2(self):
-        if self.index < len(self.TS) and self.TS[self.index].CP in {'=', ','}:
+        if self.index < len(self.TS) and self.TS[self.index].CP in {'=', ',' , 'AM' , 'String' , 'DT' , 'ID' , 'dict' , 'static' , 'final' , 'void' ,  ')' , 'TS' , 'if' , 'while' , 'try' , 'throw' , 'flowControl' , 'return' , 'ln'}:
             if self.init():
                 if self.list():
                     return True
@@ -1012,9 +1061,13 @@ class SA:
         return False
 
     def dec3(self):
-        if self.index < len(self.TS) and self.TS[self.index].CP in {'=', ','}:
+        print("dec3 me agya")
+        print(self.TS[self.index].CP)
+        if self.index < len(self.TS) and self.TS[self.index].CP in {'=', ',' , 'AM' , 'String' , 'DT' , 'ID' , 'dict' , 'static' , 'final' , 'void' ,  ')' , 'TS' , 'if' , 'while' , 'try' , 'throw' , 'flowControl' , 'return' , 'ln'}:
             if self.init_dict():
+                print("init_dict se agya")
                 if self.list_dict():
+                    print("list_dict se agya")
                     return True
         elif self.index < len(self.TS) and self.TS[self.index].CP in {'['}:
             if self.TS[self.index].CP == '[':
@@ -1033,8 +1086,9 @@ class SA:
             if self.TS[self.index].CP == '=':
                 self.index += 1
                 if self.OE():
+                    print("OE se agya")
                     return True
-        elif self.index < len(self.TS) and self.TS[self.index].CP in {',', 'AM', 'String', 'DT', 'ID', 'dict', 'static', 'final', 'void', ')', 'TS', 'if', 'while', 'try', 'throw', 'flowControl', 'return'}:
+        elif self.index < len(self.TS) and self.TS[self.index].CP in {'ln', ',', 'AM', 'String', 'DT', 'ID', 'dict', 'static', 'final', 'void', ')', 'TS', 'if', 'while', 'try', 'throw', 'flowControl', 'return'}:
             # Epsilon production
             return True
         return False
@@ -1048,7 +1102,7 @@ class SA:
                     if self.init_var():
                         if self.list_var():
                             return True
-        elif self.index < len(self.TS) and self.TS[self.index].CP in {'AM', 'String', 'DT', 'ID', 'dict', 'static', 'final', 'void', ')', 'TS', 'if', 'while', 'try', 'throw', 'flowControl', 'return'}:
+        elif self.index < len(self.TS) and self.TS[self.index].CP in {'AM', 'String', 'DT', 'ID', 'dict', 'static', 'final', 'void', ')', 'TS', 'if', 'while', 'try', 'throw', 'flowControl', 'return', 'ln'}:
             # Epsilon production
             return True
         return False
@@ -1062,7 +1116,7 @@ class SA:
                         self.index += 1
                         if self.arr_size():
                             return True
-        elif self.index < len(self.TS) and self.TS[self.index].CP in {'=', ',', 'AM', 'static', 'final', 'string', 'DT', 'ID', 'dict', 'void', ')', 'TS', 'if', 'while', 'try', 'throw', 'flowControl', 'return'}:
+        elif self.index < len(self.TS) and self.TS[self.index].CP in {'ln','=', ',', 'AM', 'static', 'final', 'string', 'DT', 'ID', 'dict', 'void', ')', 'TS', 'if', 'while', 'try', 'throw', 'flowControl', 'return'}:
             # Epsilon production
             return True
         return False
@@ -1073,7 +1127,7 @@ class SA:
                 self.index += 1
                 if self.init_arr_b():
                     return True
-        elif self.index < len(self.TS) and self.TS[self.index].CP in {'AM', 'static', 'final', 'string', 'DT', 'ID', 'dict', 'void',',', ')', 'TS', 'if', 'while', 'try', 'throw', 'flowControl', 'return'}:
+        elif self.index < len(self.TS) and self.TS[self.index].CP in {'ln','AM', 'static', 'final', 'string', 'DT', 'ID', 'dict', 'void',',', ')', 'TS', 'if', 'while', 'try', 'throw', 'flowControl', 'return'}:
             # Epsilon production
             return True
         return False
@@ -1092,7 +1146,7 @@ class SA:
                                 if self.init_arr():
                                     if self.list_arr():
                                         return True
-        elif self.index < len(self.TS) and self.TS[self.index].CP in {'AM', 'String', 'DT', 'ID', 'dict', 'static', 'final', 'void', ')', 'TS', 'if', 'while', 'try', 'throw', 'flowControl', 'return'}:
+        elif self.index < len(self.TS) and self.TS[self.index].CP in {'ln', 'AM', 'String', 'DT', 'ID', 'dict', 'static', 'final', 'void', ')', 'TS', 'if', 'while', 'try', 'throw', 'flowControl', 'return'}:
             # Epsilon production
             return True
         return False
@@ -1146,7 +1200,7 @@ class SA:
                 self.index += 1
                 if self.init2():
                     return True
-        elif self.index < len(self.TS) and self.TS[self.index].CP in {'AM', 'String', 'DT', 'ID', 'dict', 'static', 'final', 'void', ')', 'TS', 'if', 'while', 'try', 'throw', 'flowControl', 'return', ','}:
+        elif self.index < len(self.TS) and self.TS[self.index].CP in {'ln','AM', 'String', 'DT', 'ID', 'dict', 'static', 'final', 'void', ')', 'TS', 'if', 'while', 'try', 'throw', 'flowControl', 'return', ','}:
             # Epsilon production
             return True
         return False
@@ -1177,7 +1231,7 @@ class SA:
                     self.index += 1
                     if self.list2():
                         return True
-        elif self.index < len(self.TS) and self.TS[self.index].CP in {'AM', 'String', 'DT', 'ID', 'dict', 'static', 'final', 'void', ')', 'TS', 'if', 'while', 'try', 'throw', 'flowControl', 'return'}:
+        elif self.index < len(self.TS) and self.TS[self.index].CP in {'ln', 'AM', 'String', 'DT', 'ID', 'dict', 'static', 'final', 'void', ')', 'TS', 'if', 'while', 'try', 'throw', 'flowControl', 'return'}:
             # Epsilon production
             return True
         return False
@@ -1195,7 +1249,7 @@ class SA:
                 self.index += 1
                 if self.init_dict_b():
                     return True
-        elif self.index < len(self.TS) and self.TS[self.index].CP in {'AM', 'String', 'DT', 'ID', 'dict', 'static', 'final', 'void', ')', 'TS', 'if', 'while', 'try', 'throw', 'flowControl', 'return', ','}:
+        elif self.index < len(self.TS) and self.TS[self.index].CP in {'ln','AM', 'String', 'DT', 'ID', 'dict', 'static', 'final', 'void', ')', 'TS', 'if', 'while', 'try', 'throw', 'flowControl', 'return', ','}:
             # Epsilon production
             return True
         return False
@@ -1238,7 +1292,7 @@ class SA:
                     if self.init_dict():
                         if self.list_dict():
                             return True
-        elif self.index < len(self.TS) and self.TS[self.index].CP in {'AM', 'String', 'DT', 'ID', 'dict', 'static', 'final', 'void', ')', 'TS', 'if', 'while', 'try', 'throw', 'flowControl', 'return', ','}:
+        elif self.index < len(self.TS) and self.TS[self.index].CP in {'ln','AM', 'String', 'DT', 'ID', 'dict', 'static', 'final', 'void', ')', 'TS', 'if', 'while', 'try', 'throw', 'flowControl', 'return', ','}:
             # Epsilon production
             return True
         return False
@@ -1395,8 +1449,10 @@ class SA:
     def ifb3(self):
         if self.index < len(self.TS) and self.TS[self.index].CP in {'ID'}:
             if self.TS[self.index].CP == 'ID':
+                print("ID se agya")
                 self.index += 1
                 if self.ifb3a():
+                    print("ifb3a se agya")
                     return True
         elif self.index < len(self.TS) and self.TS[self.index].CP in {'['}:
             if self.TS[self.index].CP == '[':
@@ -1417,16 +1473,19 @@ class SA:
         return False
 
     def ifb3a(self):
-        if self.index < len(self.TS) and self.TS[self.index].CP in {'=', '[', ','}:
+        if self.index < len(self.TS) and self.TS[self.index].CP in {'=', '[', ',', 'ln'}:
             if self.dec1():
+                print("dec1 se agya")
                 if self.TS[self.index].CP == 'ln':
                     self.index += 1
                     if self.interface_body():
+                        print("interfac body se agya")
                         return True
         elif self.index < len(self.TS) and self.TS[self.index].CP in {'{'}:
             if self.TS[self.index].CP == '{':
                 self.index += 1
                 if self.params_list():
+                    print("paramslist se agya")
                     if self.TS[self.index].CP == '}':
                         self.index += 1
                         if self.TS[self.index].CP == 'ln':
@@ -1460,7 +1519,7 @@ class SA:
         return False
 
     def ifb4a(self):
-        if self.index < len(self.TS) and self.TS[self.index].CP in {'=', '[', ','}:
+        if self.index < len(self.TS) and self.TS[self.index].CP in {'=', '[', ',', 'ln'}:
             if self.dec2():
                 if self.TS[self.index].CP == 'ln':
                     self.index += 1
@@ -1503,7 +1562,7 @@ class SA:
         return False
 
     def ifb5a(self):
-        if self.index < len(self.TS) and self.TS[self.index].CP in {'=', '[', ','}:
+        if self.index < len(self.TS) and self.TS[self.index].CP in {'=', '[', ',', 'ln'}:
             if self.dec3():
                 if self.TS[self.index].CP == 'ln':
                     self.index += 1
@@ -1637,7 +1696,7 @@ class SA:
         return False
 
     def option(self):
-        if self.index < len(self.TS) and self.TS[self.index].CP in {'}', ')', ']', 'AM', 'static', 'final', 'DT', 'String', 'dict', 'ID', 'void', 'ln', 'LO3', 'LO2', 'RO1', 'RO2', 'PM', 'MDME', '=', 'COMPASS', 'instanceof', ','}:
+        if self.index < len(self.TS) and self.TS[self.index].CP in {'}', ')', ']', 'AM', 'static', 'final', 'DT', 'String', 'dict', 'ID', 'void', 'ln', 'LO3', 'LO2', 'RO1', 'RO2', 'PM', 'MDME', '=', 'COMPASS', 'instanceof', ',', 'TS', 'if', 'while', 'try', 'throw', 'flowControl', 'return', ')'}:
             # Epsilon production
             return True
         elif self.index < len(self.TS) and self.TS[self.index].CP in {'.'}:
@@ -1689,10 +1748,8 @@ class SA:
         return False
 
     def SST2(self):
-        if self.index < len(self.TS) and self.TS[self.index].CP in {'ln'}:
-            if self.TS[self.index].CP == 'ln':
-                self.index += 1
-                return True
+        if self.index < len(self.TS) and self.TS[self.index].CP in {'DT','String','dict','TS','ID','if','while','try','throw','flowControl','return',')'}:
+            return True
         elif self.index < len(self.TS) and self.TS[self.index].CP in {'='}:
             if self.TS[self.index].CP == '=':
                 self.index += 1
@@ -1737,9 +1794,15 @@ class SA:
         return False
 
     def SST_prime(self):
-        if self.index < len(self.TS) and self.TS[self.index].CP in { '.','[', '{', '(', 'ln' }:
+        print("SST_prime me agya")
+        print(self.TS[self.index].VP)
+        if self.index < len(self.TS) and self.TS[self.index].CP in { '.','[', '{', '(', 'ln', '=', 'COMPASS', 'instanceof' }:
+            print("SST_prime me if se agya")
             if self.option():
+                print("option se agya")
+                print(self.TS[self.index].CP)
                 if self.SST2():
+                    print("SST2 se agya")
                     return True
         elif self.index < len(self.TS) and self.TS[self.index].CP in {'ID'}:
             if self.TS[self.index].CP == 'ID':
@@ -1768,6 +1831,7 @@ class SA:
         return False
 
     def else_if(self):
+        print("else_if me agya")
         if self.index < len(self.TS) and self.TS[self.index].CP in {'elif'}:
             if self.TS[self.index].CP == 'elif':
                 self.index += 1
@@ -1787,10 +1851,13 @@ class SA:
         return False
 
     def else_st(self):
+        print("else me agae")
         if self.index < len(self.TS) and self.TS[self.index].CP in {'else'}:
             if self.TS[self.index].CP == 'else':
                 self.index += 1
+                print("else ke aage")
                 if self.body():
+                    print("else body se agya")
                     return True
         elif self.index < len(self.TS) and self.TS[self.index].CP in {'DT', 'String', 'dict', 'TS', 'ID', 'if', 'while', 'try', 'throw', 'flowControl', 'return', ')'}:
             # Epsilon production
@@ -1819,13 +1886,15 @@ class SA:
                 if self.TS[self.index].CP == ':':
                     self.index += 1
                     if self.body1():
+                        print("try body se agya")
                         if self.TS[self.index].CP == 'catch':
                             self.index += 1
+                            print("catch")
                             if self.TS[self.index].CP == '{':
                                 self.index += 1
                                 if self.TS[self.index].CP == 'ID':
                                     self.index += 1
-                                    if self.TS[self.index].CP == 'ID}':
+                                    if self.TS[self.index].CP == 'ID':
                                         self.index += 1
                                         if self.TS[self.index].CP == '}':
                                             self.index += 1

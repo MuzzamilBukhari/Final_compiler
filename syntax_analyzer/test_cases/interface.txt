@@ -1,4 +1,4 @@
-voidHai _main{}:() ehamHissa _TestCase ( numberHai add {numberHai x01, numberHai y01}
+voidHai _main{}:() ehamHissa _TestCase : ( numberHai add {numberHai x01, numberHai y01}
 zaati stringHai _method{stringHai _param}
 numberHai xyz =100
 )

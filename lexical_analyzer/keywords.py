@@ -36,7 +36,7 @@ keywords = {
     
     "mustaqil": "static",
     "bareSahab": "TS",
-    "chotySahab" : "TS",
+    "choteSahab" : "TS",
     "mehfooz": "AM",
     "zaati": "AM",
     "awami": "AM",
