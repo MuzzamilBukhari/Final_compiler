@@ -1,0 +1,2 @@
+voidHai _main {} : ( a01 = b01 = c01 = 5
+)

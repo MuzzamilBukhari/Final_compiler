@@ -8,7 +8,7 @@ from SA import SA
 
 if __name__ == '__main__':
     # Fix the file path to use a relative path instead of absolute path
-    file = open('syntax_analyzer/test_cases/main.txt', 'rt')
+    file = open('syntax_analyzer/test_cases/main2.txt', 'rt')
     # src = file.readlines()
     src = file.read()
     src.strip()

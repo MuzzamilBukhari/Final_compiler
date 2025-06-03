@@ -1,0 +1,16 @@
+voidHai _main {}: ( _Student s01 = naya _Student {}
+    s01._setData{22,"sohaib"}
+    s01._showData{}
+    numberHai i01 = 0
+    jabTak {i01 < 5} : (agar {i01 % 2 == 0} : (_dikhaao { i01 } 
+    ) i01 = i01 + 1
+    ))awami jamaat _Student : ( numberHai _rollNumber 
+    stringHai _name 
+    voidHai _setData {numberHai _rollNumber, stringHai _name} : (choteSahab._rollNumber = _rollNumber
+        choteSahab._name = _name
+        ) voidHai _showData  {} : (_dikhaao {_name, _rollNumber }
+))
+
+
+
+

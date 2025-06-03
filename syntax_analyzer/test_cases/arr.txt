@@ -1,0 +1,6 @@
+# Ye program array ke ley hai
+voidHai _main {}: ( numberHai arr[2][2] = [[2,5],[3,9]]
+_dikhaao { arr[0][1] }
+_direction _myvar = _north
+) enumHai _direction : (_north = 11, _south=12)
+

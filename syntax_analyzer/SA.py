@@ -18,6 +18,7 @@ class SA:
 
     def OE(self):
         if self.AE():
+            print("AE se agya")
             if self.OE_prime():
                 return True
 
@@ -35,6 +36,7 @@ class SA:
 
     def AE(self):
         if self.RE2():
+            print("RE2 se agaya")
             if self.AE_prime():
                 return True
 
@@ -52,6 +54,7 @@ class SA:
 
     def RE2(self):
         if self.RE1():
+            print("a")
             if self.RE2_prime():
                 return True
 
@@ -69,6 +72,7 @@ class SA:
 
     def RE1(self):
         if self.E():
+            print("a")
             if self.RE1_prime():
                 return True
 
@@ -86,6 +90,7 @@ class SA:
 
     def E(self):
         if self.T():
+            print("a")
             if self.E_prime():
                 return True
 
@@ -103,6 +108,7 @@ class SA:
 
     def T(self):
         if self.F():
+            print("f")
             if self.T_prime():
                 return True
 
@@ -119,7 +125,9 @@ class SA:
         return False
 
     def F(self):
+        print(self.TS[self.index].CP)
         if self.index < len(self.TS) and self.TS[self.index].CP in {'str_const', 'num_const', 'char_const', 'bool_const', 'null_const'}:
+            print("str conts again")
             if self.const():
                 return True
         elif self.index < len(self.TS) and self.TS[self.index].CP in {'{'}:
@@ -145,10 +153,14 @@ class SA:
                             if self.F1():
                                 return True
         elif self.index < len(self.TS) and self.TS[self.index].CP in {'ID'}:
+            print("ID match hogai")
             if self.TS[self.index].CP == 'ID':
                 self.index += 1
                 if self.option():
+                    print("option se agya")
+                    print(self.TS[self.index].CP)
                     if self.F1():
+                        print("F1 se agya")
                         return True
         return False
     
@@ -171,7 +183,7 @@ class SA:
         return False
     
     def F1(self):
-        if self.index < len(self.TS) and self.TS[self.index].CP in {'}', ')', ']', 'AM', 'static', 'final', 'DT', 'String', 'dict', 'ID', 'void', 'ln', 'LO3', 'LO2', 'RO1', 'RO2', 'PM', 'MDME'}:
+        if self.index < len(self.TS) and self.TS[self.index].CP in {'}', ')', ']', 'AM', 'static', 'final', 'DT', 'String', 'dict', 'ID', 'void', 'ln', 'LO3', 'LO2', 'RO1', 'RO2', 'PM', 'MDME', ','}:
             # Epsilon production
             return True
         elif self.index < len(self.TS) and self.TS[self.index].CP in {'instanceof'}:
@@ -1409,8 +1421,11 @@ class SA:
 
     def args_list(self):
         if self.index < len(self.TS) and self.TS[self.index].CP in {'str_const', 'num_const', 'char_const', 'bool_const', 'null_const', 'L01', '{', 'TS', 'ID'}:
+            print("str const uthalia")
             if self.OE():
+                print("OE se agya")
                 if self.list_args():
+                    print("list args se aagya")
                     return True
         elif self.index < len(self.TS) and self.TS[self.index].CP in {'}'}:
             # Epsilon production
@@ -1418,7 +1433,9 @@ class SA:
         return False
 
     def list_args(self):
+        print("list args me agya")
         if self.index < len(self.TS) and self.TS[self.index].CP in {','}:
+            print("comma match")
             if self.TS[self.index].CP == ',':
                 self.index += 1
                 if self.OE():
@@ -1724,9 +1741,12 @@ class SA:
                         if self.option():
                             return True   
         elif self.index < len(self.TS) and self.TS[self.index].CP in {'{'}:
+            print("option se { ye lelia")
             if self.TS[self.index].CP == '{':
+                print("option se { ye lelia")
                 self.index += 1
                 if self.args_list():
+                    print("args list se agya")
                     if self.TS[self.index].CP == '}':
                         self.index += 1
                         if self.option2():
