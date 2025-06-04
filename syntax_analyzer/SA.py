@@ -149,20 +149,23 @@ class SA:
                     self.index += 1
                     if self.TS[self.index].CP == 'ID':
                         self.index += 1
-                        if self.option():
+                        if self.opt():
                             if self.F1():
                                 return True
         elif self.index < len(self.TS) and self.TS[self.index].CP in {'ID'}:
             print("ID match hogai")
             if self.TS[self.index].CP == 'ID':
                 self.index += 1
-                if self.option():
+                if self.opt():
                     print("option se agya")
                     print(self.TS[self.index].CP)
                     if self.F1():
                         print("F1 se agya")
                         return True
         return False
+    
+    def opt(self):  
+        pass
     
     def const(self):
         if self.TS[self.index].CP == 'str_const':
@@ -364,9 +367,22 @@ class SA:
         if self.index < len(self.TS) and self.TS[self.index].CP in {'return'}:
             if self.TS[self.index].CP == 'return':
                 self.index += 1
-                if self.OE():
-                    return True
+                if self.NEXT():
+                    print("NEXT se agya")
+                    if self.TS[self.index].CP == 'ln':
+                        self.index += 1
+                        return True
         elif self.index < len(self.TS) and self.TS[self.index].CP in {')'}:
+            # Epsilon production
+            return True
+        return False
+
+    def NEXT(self):
+        if self.index < len(self.TS) and self.TS[self.index].CP in {  'str_const', 'num_const', 'char_const', 'bool_const', 'null_const', 'LO1', '{', 'TS', 'ID' }:
+            if self.OE():
+                print("OE se agya")
+                return True
+        elif self.index < len(self.TS) and self.TS[self.index].CP in {'ln'}:
             # Epsilon production
             return True
         return False

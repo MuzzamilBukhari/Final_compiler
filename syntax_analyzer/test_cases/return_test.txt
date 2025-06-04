@@ -1,0 +1,3 @@
+voidHai _main {} : ( ) voidHai _showData {} : ( _dikhao {_name, _rollNumber} 
+wapisDo
+)
